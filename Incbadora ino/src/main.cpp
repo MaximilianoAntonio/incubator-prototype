@@ -27,7 +27,7 @@ void medirVelocidad() {
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   // Inicialización de tiempos
   tiempoAnteriorTemp = millis();
@@ -84,21 +84,25 @@ void loop() {
   }
 
 
-  comando = Serial.readString();
+  if (Serial.available() > 0) {
 
-  // Comando para controlar la luz
-  if (comando.startsWith("LUZ", 0)) {
-    valorLuz = comando.substring(4); // Obtener el valor después de "LUZ "
-    potenciaLuz = valorLuz.toInt(); // Convertir el valor a entero
-    potenciaLuz = map(potenciaLuz, 0, 100, 0, 255); // Mapeo del valor de 0-100 a 0-255
-    analogWrite(LUZ_PIN, potenciaLuz); // Control de la potencia de la luz
+    comando = Serial.readStringUntil('\n');
+
+    // Comando para controlar la luz
+    if (comando.startsWith("LUZ")) {
+      valorLuz = comando.substring(4);
+      potenciaLuz = valorLuz.toInt();
+      potenciaLuz = map(potenciaLuz, 0, 100, 0, 255);
+      analogWrite(LUZ_PIN, potenciaLuz);
+    }
+
+    // Comando para controlar el ventilador
+    else if (comando.startsWith("VENT")) {
+      valorVentilador = comando.substring(5);
+      velocidadVentilador = valorVentilador.toInt();
+      velocidadVentilador = map(velocidadVentilador, 0, 100, 0, 255);
+      analogWrite(VENT_PIN, velocidadVentilador);
+    }
   }
 
-  // Comando para controlar el ventilador
-  else if (comando.startsWith("VENT", 0)) {
-    valorVentilador = comando.substring(5); // Obtener el valor después de "VENT "
-    velocidadVentilador = valorVentilador.toInt(); // Convertir el valor a entero
-    velocidadVentilador = map(velocidadVentilador, 0, 100, 0, 255); // Mapeo del valor de 0-100 a 0-255
-    analogWrite(VENT_PIN, velocidadVentilador); // Control de la velocidad del ventilador
-  }
 }
