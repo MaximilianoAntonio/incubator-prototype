@@ -1,7 +1,6 @@
 import serial 
-import matplotlib.pyplot as plt
 from PyQt6 import uic, QtWidgets
-from PyQt6.QtWidgets import QMessageBox, QMainWindow, QApplication
+from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtCore import QTimer
 import sys
 
@@ -26,10 +25,12 @@ class Plataforma(QMainWindow):
     def enviar_luz(self, valor):
         comando = f'LUZ {valor}\n'
         self.serial_port.write(comando.encode('utf-8'))
+        self.lcdLuz.display(valor)
 
     def enviar_ventilador(self, valor):
         comando = f'VENT {valor}\n'
         self.serial_port.write(comando.encode('utf-8'))
+        self.lcdVentilador.display(valor)
 
     def leer_datos(self):
         while self.serial_port.in_waiting > 0:
