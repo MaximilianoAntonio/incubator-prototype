@@ -47,8 +47,8 @@ void setup() {
 
 void loop() {
 
-  // Medición de temperatura cada 100 ms
-  if (millis() - tiempoAnteriorTemp >= 100) {
+  // Medición de temperatura cada 250 ms
+  if (millis() - tiempoAnteriorTemp >= 250) {
     // Lectura del sensor de temperatura
     lecturaNTC = analogRead(NTC_PIN);
     resistenciaNTC = 100000.0 * ((1023.0 / lecturaNTC) - 1.0); // Cálculo de la resistencia
@@ -59,8 +59,8 @@ void loop() {
     tiempoAnteriorTemp = millis(); // Actualizar el tiempo de la última medición de temperatura
   }
 
-  // Cálculo de la velocidad del ventilador cada 100 ms 
-  if (millis() - tiempoAnteriorVel >= 100) {
+  // Cálculo de la velocidad del ventilador cada 500 ms 
+  if (millis() - tiempoAnteriorVel >= 500) {
     if (deltaTiempo > 0) {
       velocidadRPM = (contadorImpulsos / deltaTiempo) * 60000.0; // Conversión a RPM (revoluciones por minuto)
 
