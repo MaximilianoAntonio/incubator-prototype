@@ -1,58 +1,104 @@
 #include <Arduino.h>
 
-float Tref, vol, vastago, vastago2, resNTC, temperatura, t, DXDT, cont;
-float a, b, c;
-int pwm, pot, vel, pot2, pwm2, Vamp, velocidad;
-unsigned long t0, t1, deltat;
-unsigned long lastUpdateTime = 0;  // Para rastrear el tiempo de la última actualización
-int pulsosPorRevolucion = 2;  // Estimación común de pulsos por revolución
-volatile int contadorPulsos = 0;  // Contador de pulsos para la interrupción
+// Definición de pines
+#define NTC_PIN A0
+#define LUZ_PIN 3
+#define VENT_PIN 5
+#define VEL_PIN 2
 
-const int pwmPin = 3;  // Pin de PWM
+// Constantes para el cálculo de la temperatura
+#define A_COEFF 0.5458630405e-3
+#define B_COEFF 2.439180157e-4
+#define C_COEFF -0.0003705076153e-7
 
-void velocimetro() {
-  contadorPulsos++;  // Incrementa el número de pulsos cada vez que ocurre la interrupción
+// Variables para medición de temperatura y control
+float resistenciaNTC, logResistencia, tempKelvin, tempCelsius; 
+int lecturaNTC, potenciaVentilador, potenciaLuz, velocidadVentilador, contadorImpulsos; 
+float velocidadRPM; 
+unsigned long tiempoAnteriorTemp, tiempoAnteriorVel, tiempoActual, tiempoImprimir, deltaTiempo;
+
+// Variables para lectura de comandos
+String comando, valorLuz, valorVentilador;
+
+// Función de interrupción para contar los impulsos del ventilador
+void medirVelocidad() {
+  contadorImpulsos++;
+  deltaTiempo = millis() - tiempoActual;
 }
 
 void setup() {
-  Serial.begin(9600);  // Iniciar la comunicación serie
-  pinMode(pwmPin, OUTPUT);  // Configurar el pin 3 como salida
-  Serial.println("Envía un valor entre 0 y 255 para ajustar el PWM:");
-  
-  t0 = millis();
-  t1 = millis();
-  
-  attachInterrupt(digitalPinToInterrupt(2), velocimetro, FALLING);  // Configurar interrupción
+  Serial.begin(9600);
+
+  // Inicialización de tiempos
+  tiempoAnteriorTemp = millis();
+  tiempoAnteriorVel = millis();
+  tiempoImprimir = millis();
+  tiempoActual = millis();
+
+  // Configuración de pines
+  pinMode(NTC_PIN, INPUT); 
+  pinMode(LUZ_PIN, OUTPUT); 
+  pinMode(VENT_PIN, OUTPUT);
+  pinMode(VEL_PIN, INPUT);
+
+  // Configuración de interrupción para medir velocidad del ventilador
+  attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, FALLING);
 }
 
 void loop() {
-  if (Serial.available() > 0) {  // Verificar si hay datos disponibles en el puerto serie
-    String input = Serial.readStringUntil('\n');  // Leer la línea completa hasta el salto de línea
-    int pwmValue = input.toInt();  // Convertir el valor ingresado en un número entero
 
-    // Validar que el valor esté entre 0 y 255
-    if (pwmValue >= 0 && pwmValue <= 255) {
-      analogWrite(pwmPin, pwmValue);  // Aplicar el valor de PWM al pin 3
-      Serial.print("PWM ajustado a: ");
-      Serial.println(pwmValue);  // Confirmar el valor ajustado
-    } else {
-      Serial.println("Por favor, ingresa un valor entre 0 y 255.");  // Mensaje de error
-    }
+  // Medición de temperatura cada 100 ms
+  if (millis() - tiempoAnteriorTemp >= 100) {
+    // Lectura del sensor de temperatura
+    lecturaNTC = analogRead(NTC_PIN);
+    resistenciaNTC = 100000.0 * ((1023.0 / lecturaNTC) - 1.0); // Cálculo de la resistencia
+    logResistencia = log(resistenciaNTC); // Logaritmo natural de la resistencia
+    tempKelvin = 1.0 / (A_COEFF + B_COEFF * logResistencia + C_COEFF * pow(logResistencia, 3)); // Conversión a grados Kelvin
+    tempCelsius = tempKelvin - 273.15; // Conversión a grados Celsius
+
+    tiempoAnteriorTemp = millis(); // Actualizar el tiempo de la última medición de temperatura
   }
 
-  // Calcular las RPM cada segundo (1000 milisegundos)
-  unsigned long currentTime = millis();
-  if (currentTime - lastUpdateTime >= 1000) {  // Actualizar cada segundo
-    // Calcular RPM
-    float revoluciones = (contadorPulsos / (float)pulsosPorRevolucion);  // Convertir pulsos a revoluciones
-    float rpm = (revoluciones * 60.0);  // Convertir a revoluciones por minuto (RPM)
-    
-    // Mostrar las RPM
-    Serial.print("RPM: ");
-    Serial.println(rpm);
-    
-    // Reiniciar el contador de pulsos y el tiempo
-    contadorPulsos = 0;
-    lastUpdateTime = currentTime;
+  // Cálculo de la velocidad del ventilador cada 100 ms 
+  if (millis() - tiempoAnteriorVel >= 100) {
+    if (deltaTiempo > 0) {
+      velocidadRPM = (contadorImpulsos / deltaTiempo) * 60000.0; // Conversión a RPM (revoluciones por minuto)
+
+      // Reiniciar el tiempo y contador
+      tiempoActual = millis();
+      contadorImpulsos = 0;
+      deltaTiempo = 0;
+    }
+
+    tiempoAnteriorVel = millis(); // Actualizar el tiempo de la última medición de velocidad
+  }
+
+  // Impresión de datos cada 300 ms
+  if (millis() - tiempoImprimir >= 300) {
+
+    Serial.println(tempCelsius);
+    Serial.print(";");
+    Serial.println(velocidadRPM);
+
+    tiempoImprimir = millis(); // Actualizar el tiempo de la última impresión del menú
+  }
+
+
+  comando = Serial.readString();
+
+  // Comando para controlar la luz
+  if (comando.startsWith("LUZ", 0)) {
+    valorLuz = comando.substring(4); // Obtener el valor después de "LUZ "
+    potenciaLuz = valorLuz.toInt(); // Convertir el valor a entero
+    potenciaLuz = map(potenciaLuz, 0, 100, 0, 255); // Mapeo del valor de 0-100 a 0-255
+    analogWrite(LUZ_PIN, potenciaLuz); // Control de la potencia de la luz
+  }
+
+  // Comando para controlar el ventilador
+  else if (comando.startsWith("VENT", 0)) {
+    valorVentilador = comando.substring(5); // Obtener el valor después de "VENT "
+    velocidadVentilador = valorVentilador.toInt(); // Convertir el valor a entero
+    velocidadVentilador = map(velocidadVentilador, 0, 100, 0, 255); // Mapeo del valor de 0-100 a 0-255
+    analogWrite(VENT_PIN, velocidadVentilador); // Control de la velocidad del ventilador
   }
 }
