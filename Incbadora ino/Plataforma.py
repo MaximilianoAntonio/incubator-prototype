@@ -11,7 +11,7 @@ class Plataforma(QMainWindow):
         uic.loadUi("Plataforma.ui", self)
         
         # Configurar conexión serial
-        self.serial_port = serial.Serial('COM10', 115200, timeout=1)
+        self.serial_port = serial.Serial('COM11', 115200, timeout=1)
 
         # Conectar señales de los sliders
         self.slider_luz.valueChanged.connect(self.enviar_luz)

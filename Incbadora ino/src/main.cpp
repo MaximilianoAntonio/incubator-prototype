@@ -12,10 +12,12 @@
 #define C_COEFF -0.0003705076153e-7
 
 // Variables para medición de temperatura y control
-float resistenciaNTC, logResistencia, tempKelvin, tempCelsius; 
-int lecturaNTC, potenciaVentilador, potenciaLuz, velocidadVentilador, contadorImpulsos; 
-float velocidadRPM; 
-unsigned long tiempoAnteriorTemp, tiempoAnteriorVel, tiempoActual, tiempoImprimir, deltaTiempo;
+float resistenciaNTC, logResistencia, tempKelvin, tempCelsius;
+int lecturaNTC, potenciaVentilador, potenciaLuz, velocidadVentilador;
+volatile int contadorImpulsos = 0; // Declarar como volatile
+volatile float velocidadRPM = 0; // Declarar como volatile
+unsigned long tiempoAnteriorTemp, tiempoAnteriorVel, tiempoImprimir;
+unsigned long ultimoTiempoRPM;
 
 // Variables para lectura de comandos
 String comando, valorLuz, valorVentilador;
@@ -23,7 +25,6 @@ String comando, valorLuz, valorVentilador;
 // Función de interrupción para contar los impulsos del ventilador
 void medirVelocidad() {
   contadorImpulsos++;
-  deltaTiempo = millis() - tiempoActual;
 }
 
 void setup() {
@@ -33,16 +34,16 @@ void setup() {
   tiempoAnteriorTemp = millis();
   tiempoAnteriorVel = millis();
   tiempoImprimir = millis();
-  tiempoActual = millis();
+  ultimoTiempoRPM = millis();
 
   // Configuración de pines
-  pinMode(NTC_PIN, INPUT); 
-  pinMode(LUZ_PIN, OUTPUT); 
+  pinMode(NTC_PIN, INPUT);
+  pinMode(LUZ_PIN, OUTPUT);
   pinMode(VENT_PIN, OUTPUT);
   pinMode(VEL_PIN, INPUT);
 
   // Configuración de interrupción para medir velocidad del ventilador
-  attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, FALLING);
+  attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, RISING);
 }
 
 void loop() {
@@ -59,30 +60,37 @@ void loop() {
     tiempoAnteriorTemp = millis(); // Actualizar el tiempo de la última medición de temperatura
   }
 
-  // Cálculo de la velocidad del ventilador cada 500 ms 
+  // Cálculo de la velocidad del ventilador cada 500 ms
   if (millis() - tiempoAnteriorVel >= 500) {
-    if (deltaTiempo > 0) {
-      velocidadRPM = (contadorImpulsos / deltaTiempo) * 60000.0; // Conversión a RPM (revoluciones por minuto)
+    unsigned long tiempoActual = millis();
+    unsigned long tiempoTranscurrido = tiempoActual - ultimoTiempoRPM;
 
-      // Reiniciar el tiempo y contador
-      tiempoActual = millis();
-      contadorImpulsos = 0;
-      deltaTiempo = 0;
+    // Deshabilitar interrupciones mientras se lee y reinicia el contador
+    noInterrupts();
+    int pulsos = contadorImpulsos;
+    contadorImpulsos = 0;
+    interrupts();
+
+    // Asegurarse de que tiempoTranscurrido no sea cero
+    if (tiempoTranscurrido > 0) {
+      // Suponiendo 2 pulsos por revolución
+      velocidadRPM = (pulsos / 2.0) * (6000.0 / tiempoTranscurrido);
+    } else {
+      velocidadRPM = 0;
     }
 
-    tiempoAnteriorVel = millis(); // Actualizar el tiempo de la última medición de velocidad
+    ultimoTiempoRPM = tiempoActual;
+    tiempoAnteriorVel = tiempoActual; // Actualizar el tiempo de la última medición de velocidad
   }
 
   // Impresión de datos cada 300 ms
   if (millis() - tiempoImprimir >= 300) {
-
-    Serial.println(tempCelsius);
+    Serial.print(tempCelsius);
     Serial.print(";");
     Serial.println(velocidadRPM);
 
-    tiempoImprimir = millis(); // Actualizar el tiempo de la última impresión del menú
+    tiempoImprimir = millis(); // Actualizar el tiempo de la última impresión
   }
-
 
   if (Serial.available() > 0) {
 
