@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>599</height>
+    <width>944</width>
+    <height>772</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QSlider" name="slider_luz">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>460</y>
+      <x>110</x>
+      <y>650</y>
       <width>160</width>
       <height>16</height>
      </rect>
@@ -39,8 +39,8 @@
    <widget class="QSlider" name="slider_ventilador">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>460</y>
+      <x>670</x>
+      <y>650</y>
       <width>160</width>
       <height>16</height>
      </rect>
@@ -55,8 +55,8 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>510</y>
+      <x>160</x>
+      <y>700</y>
       <width>49</width>
       <height>16</height>
      </rect>
@@ -68,8 +68,8 @@
    <widget class="QLabel" name="slider_ventilador_2">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>510</y>
+      <x>700</x>
+      <y>700</y>
       <width>111</width>
       <height>16</height>
      </rect>
@@ -81,10 +81,10 @@
    <widget class="QLabel" name="label_temperatura">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>140</y>
+      <x>140</x>
+      <y>10</y>
       <width>131</width>
-      <height>101</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -94,10 +94,10 @@
    <widget class="QLabel" name="label_velocidad">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>140</y>
+      <x>650</x>
+      <y>10</y>
       <width>131</width>
-      <height>101</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -107,8 +107,8 @@
    <widget class="QLCDNumber" name="lcdLuz">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>480</y>
+      <x>150</x>
+      <y>670</y>
       <width>64</width>
       <height>23</height>
      </rect>
@@ -117,12 +117,49 @@
    <widget class="QLCDNumber" name="lcdVentilador">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>480</y>
+      <x>710</x>
+      <y>670</y>
       <width>64</width>
       <height>23</height>
      </rect>
     </property>
+   </widget>
+   <widget class="QPushButton" name="boton_iniciar">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>680</y>
+      <width>161</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Iniciar Registro</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="boton_detener">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>650</y>
+      <width>161</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Detener Registro</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget_graficos">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>921</width>
+      <height>581</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="layout_graficos"/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -130,7 +167,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>944</width>
      <height>21</height>
     </rect>
    </property>
