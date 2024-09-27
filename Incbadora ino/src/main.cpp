@@ -2,14 +2,14 @@
 
 // Definición de pines
 #define NTC_PIN A0
-#define LUZ_PIN 3
+#define LUZ_PIN 3 // pin Luz
 #define VENT_PIN 5
 #define VEL_PIN 2
 
 // Constantes para el cálculo de la temperatura
-#define A_COEFF 0.6471882662e-3
-#define B_COEFF 2.241214514e-4
-#define C_COEFF 0.8291865115-7
+#define A_COEFF 0.5458630405e-3
+#define B_COEFF 2.439180157e-4
+#define C_COEFF -0.0003705076153e-7
 
 // Variables para medición de temperatura y control
 float resistenciaNTC, logResistencia, tempKelvin, tempCelsius;
@@ -60,8 +60,8 @@ void loop() {
     tiempoAnteriorTemp = millis(); // Actualizar el tiempo de la última medición de temperatura
   }
 
-  // Cálculo de la velocidad del ventilador cada 500 ms
-  if (millis() - tiempoAnteriorVel >= 500) {
+  // Cálculo de la velocidad del ventilador cada 1000 ms
+  if (millis() - tiempoAnteriorVel >= 1000) {
     unsigned long tiempoActual = millis();
     unsigned long tiempoTranscurrido = tiempoActual - ultimoTiempoRPM;
 
@@ -83,8 +83,8 @@ void loop() {
     tiempoAnteriorVel = tiempoActual; // Actualizar el tiempo de la última medición de velocidad
   }
 
-  // Impresión de datos cada 100 ms
-  if (millis() - tiempoImprimir >= 100) {
+  // Impresión de datos cada 300 ms
+  if (millis() - tiempoImprimir >= 300) {
     Serial.print(tempCelsius);
     Serial.print(";");
     Serial.println(velocidadRPM);
