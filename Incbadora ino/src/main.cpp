@@ -1,10 +1,10 @@
 #include <Arduino.h>
 
 // Definición de pines
-#define NTC_PIN A0
+#define NTC_PIN A0 // pin NTC
 #define LUZ_PIN 3 // pin Luz
-#define VENT_PIN 5
-#define VEL_PIN 2
+#define VENT_PIN 9 // pin Ventilador
+#define VEL_PIN 2 // pin Velocidad Tacometro
 
 // Constantes para el cálculo de la temperatura
 #define A_COEFF 0.5458630405e-3
@@ -30,6 +30,8 @@ void medirVelocidad() {
 void setup() {
   Serial.begin(115200);
 
+  TCCR1B = (TCCR1B & 0b11111000) | 0x01;  // Configura el prescaler a 1 (frecuencia máxima) al pin 9
+
   // Inicialización de tiempos
   tiempoAnteriorTemp = millis();
   tiempoAnteriorVel = millis();
@@ -43,7 +45,7 @@ void setup() {
   pinMode(VEL_PIN, INPUT);
 
   // Configuración de interrupción para medir velocidad del ventilador
-  attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, RISING);
+  attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, FALLING);
 }
 
 void loop() {
@@ -61,27 +63,27 @@ void loop() {
   }
 
   // Cálculo de la velocidad del ventilador cada 1000 ms
-  if (millis() - tiempoAnteriorVel >= 1000) {
-    unsigned long tiempoActual = millis();
-    unsigned long tiempoTranscurrido = tiempoActual - ultimoTiempoRPM;
+if (millis() - tiempoAnteriorVel >= 1000) {
+  unsigned long tiempoActual = millis();
+  unsigned long tiempoTranscurrido = tiempoActual - ultimoTiempoRPM;
 
-    // Deshabilitar interrupciones mientras se lee y reinicia el contador
-    noInterrupts();
-    int pulsos = contadorImpulsos;
-    contadorImpulsos = 0;
-    interrupts();
+  // Deshabilitar interrupciones mientras se lee y reinicia el contador
+  noInterrupts();
+  int pulsos = contadorImpulsos;
+  contadorImpulsos = 0; // Reiniciar el contador de pulsos
+  interrupts();
 
-    // Asegurarse de que tiempoTranscurrido no sea cero
-    if (tiempoTranscurrido > 0) {
-      // Suponiendo 2 pulsos por revolución
-      velocidadRPM = (pulsos / 2.0) * (6000.0 / tiempoTranscurrido);
-    } else {
-      velocidadRPM = 0;
-    }
 
-    ultimoTiempoRPM = tiempoActual;
-    tiempoAnteriorVel = tiempoActual; // Actualizar el tiempo de la última medición de velocidad
+  if (tiempoTranscurrido > 0 && pulsos > 0) {
+    // Suponiendo que el ventilador genera 2 pulsos por revolución
+    velocidadRPM = (pulsos / 2.0) * (6000.0 / tiempoTranscurrido);
+  } else if (tiempoTranscurrido > 0 && pulsos == 0) {
+    velocidadRPM = 0;  // Si no hay pulsos, la velocidad es 0
   }
+
+  ultimoTiempoRPM = tiempoActual;  // Actualizar el tiempo de referencia
+  tiempoAnteriorVel = tiempoActual; // Actualizar el tiempo de la última medición de velocidad
+}
 
   // Impresión de datos cada 300 ms
   if (millis() - tiempoImprimir >= 300) {
@@ -109,8 +111,14 @@ void loop() {
       valorVentilador = comando.substring(5);
       velocidadVentilador = valorVentilador.toInt();
       velocidadVentilador = map(velocidadVentilador, 0, 100, 0, 255);
+      //corriente de arranque
+      if (velocidadVentilador > 0) {
+        analogWrite(VENT_PIN, 255);
+        delay(200);
+        analogWrite(VENT_PIN, velocidadVentilador);
+      } else if (velocidadVentilador == 0) {
       analogWrite(VENT_PIN, velocidadVentilador);
     }
+    }
   }
-
 }

@@ -6,131 +6,89 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>944</width>
-    <height>772</height>
+    <width>1185</width>
+    <height>758</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QSlider" name="slider_luz">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>650</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="mouseTracking">
-     <bool>false</bool>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Orientation::Horizontal</enum>
-    </property>
-    <property name="invertedAppearance">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QSlider" name="slider_ventilador">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>650</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Orientation::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>700</y>
-      <width>49</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>slider_luz</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="slider_ventilador_2">
-    <property name="geometry">
-     <rect>
-      <x>700</x>
-      <y>700</y>
-      <width>111</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>slider_ventilador</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_temperatura">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>900</x>
       <y>10</y>
-      <width>131</width>
-      <height>21</height>
+      <width>271</width>
+      <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>Cargando...</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_velocidad">
     <property name="geometry">
      <rect>
-      <x>650</x>
-      <y>10</y>
-      <width>131</width>
-      <height>21</height>
+      <x>900</x>
+      <y>50</y>
+      <width>271</width>
+      <height>51</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>Cargando...</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::TextFormat::AutoText</enum>
     </property>
    </widget>
    <widget class="QLCDNumber" name="lcdLuz">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>670</y>
-      <width>64</width>
-      <height>23</height>
+      <x>930</x>
+      <y>310</y>
+      <width>91</width>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
+    </property>
+    <property name="smallDecimalPoint">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLCDNumber" name="lcdVentilador">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>670</y>
-      <width>64</width>
-      <height>23</height>
+      <x>1050</x>
+      <y>310</y>
+      <width>91</width>
+      <height>41</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="boton_iniciar">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>680</y>
-      <width>161</width>
-      <height>24</height>
+      <x>910</x>
+      <y>580</y>
+      <width>251</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
@@ -140,10 +98,10 @@
    <widget class="QPushButton" name="boton_detener">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>910</x>
       <y>650</y>
-      <width>161</width>
-      <height>24</height>
+      <width>251</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
@@ -154,12 +112,150 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>40</y>
-      <width>921</width>
-      <height>581</height>
+      <y>20</y>
+      <width>881</width>
+      <height>691</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="layout_graficos"/>
+   </widget>
+   <widget class="QLabel" name="label_Radiacion">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>90</y>
+      <width>281</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Cargando...</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::TextFormat::AutoText</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="slider_luz">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>360</y>
+      <width>16</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Orientation::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="slider_ventilador">
+    <property name="geometry">
+     <rect>
+      <x>1090</x>
+      <y>360</y>
+      <width>16</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Orientation::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>520</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Potencia&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::TextFormat::RichText</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>540</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Luz&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::TextFormat::RichText</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>1050</x>
+      <y>520</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Potencia&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::TextFormat::RichText</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>1050</x>
+      <y>540</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Ventilador&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::TextFormat::RichText</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_Radiacion_2">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>130</y>
+      <width>281</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Cargando...</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::TextFormat::AutoText</enum>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -167,7 +263,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>944</width>
+     <width>1185</width>
      <height>21</height>
     </rect>
    </property>

@@ -5,6 +5,7 @@ from PyQt6.QtCore import QTimer, QDateTime
 import sys
 import csv
 import pyqtgraph as pg  
+import numpy as np
 
 class Plataforma(QMainWindow):
     def __init__(self):
@@ -12,7 +13,7 @@ class Plataforma(QMainWindow):
         uic.loadUi("Plataforma.ui", self)
         
         # Configurar conexión serial
-        self.serial_port = serial.Serial('COM8', 115200, timeout=1)
+        self.serial_port = serial.Serial('COM10', 115200, timeout=1)
 
         # Variables para registro de datos
         self.datos = []
@@ -76,6 +77,11 @@ class Plataforma(QMainWindow):
         comando = f'LUZ {valor}\n'
         self.serial_port.write(comando.encode('utf-8'))
         self.lcdLuz.display(valor)
+        Amperios = np.interp(valor, [0, 100], [0, 1.6])
+        RadiacionLuz = (12*Amperios)*0.03
+        RadiacionCalor = (12*Amperios) - RadiacionLuz
+        self.label_Radiacion_2.setText(f'Radiación Luz: {RadiacionLuz:.1f} W')
+        self.label_Radiacion.setText(f'Radiación Calor: {RadiacionCalor:.1f} W')
         self.potencia_luz = valor  # Guardar el valor actual de la luz
 
     def enviar_ventilador(self, valor):
@@ -108,8 +114,6 @@ class Plataforma(QMainWindow):
             self.archivo_csv.close()
             self.registrando = False
             self.statusBar().showMessage('Registro detenido')
-            # Si deseas generar una gráfica final, puedes hacerlo aquí
-            # self.generar_grafica()
 
     def leer_datos(self):
         while self.serial_port.in_waiting > 0:
@@ -119,8 +123,8 @@ class Plataforma(QMainWindow):
                 if len(datos) == 2:
                     temp = float(datos[0])
                     velocidad = float(datos[1])
-                    self.label_temperatura.setText(f'Temperatura: {temp:.2f} °C')
-                    self.label_velocidad.setText(f'Velocidad: {velocidad:.2f} RPM')
+                    self.label_temperatura.setText(f'Temperatura: {temp:.1f} °C')
+                    self.label_velocidad.setText(f'Velocidad: {int(velocidad)} RPM')
 
                     if self.registrando:
                         tiempo_actual = QDateTime.currentDateTime()
