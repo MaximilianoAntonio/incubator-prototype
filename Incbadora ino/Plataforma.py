@@ -17,14 +17,14 @@ class Plataforma(QMainWindow):
 
         # Variables para registro de datos
         self.datos = []
-        self.registrando = False
-        self.control_automatico = False   
+        self.registrando = False  # Inicialmente no se está registrando datos
+        self.control_automatico = False  # Inicialización del control automático
 
         # Conectar señales de los sliders
         self.slider_luz.valueChanged.connect(self.enviar_luz)
         self.slider_ventilador.valueChanged.connect(self.enviar_ventilador)
         self.slider_setpoint.valueChanged.connect(self.enviar_setpoint) 
-        self.Controlbox.stateChanged.connect(self.toggle_control_automatico)  # Conectar CheckBox
+        self.Controlbox.stateChanged.connect(self.toggle_control_automatico)
 
         # Botones para iniciar y detener registro
         self.boton_iniciar.clicked.connect(self.iniciar_registro)
@@ -33,7 +33,7 @@ class Plataforma(QMainWindow):
         # Configurar temporizador para leer datos del Arduino
         self.timer = QTimer()
         self.timer.timeout.connect(self.leer_datos)
-        self.timer.start(300)  # Cada 300 ms
+        self.timer.start(300)  # Cada 300 ms, ya está activo
 
         # Valores iniciales
         self.potencia_luz = 0
@@ -46,12 +46,12 @@ class Plataforma(QMainWindow):
         self.potencias_luz = []
         self.potencias_ventilador = []
 
-        # Crear los gráficos utilizando PyQtGraph
+        # Configurar gráficos utilizando PyQtGraph
         self.graficos_setup()
 
     def graficos_setup(self):
         # Crear un widget para los gráficos
-        self.win = pg.GraphicsLayoutWidget()
+        self.win = pg.GraphicsLayoutWidget(show=True)
         self.layout_graficos.addWidget(self.win)  # layout_graficos es un QVBoxLayout en tu interfaz
 
         # Añadir gráficos
