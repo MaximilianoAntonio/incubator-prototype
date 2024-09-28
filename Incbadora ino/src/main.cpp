@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <PID_v1.h>
 
 // Definición de pines
 #define NTC_PIN A0 // pin NTC
@@ -22,9 +23,44 @@ unsigned long ultimoTiempoRPM;
 // Variables para lectura de comandos
 String comando, valorLuz, valorVentilador;
 
+// Variables PID
+double setpoint, input, output;
+
+// Parámetros PID para los diferentes ensayos
+double Kp[] = {40.46, 78.22, 72.31, 82.21, 196.53};
+double Ki[] = {0.108, 0.075, 0.079, 0.183, 0.170};
+double Kd[] = {15115.43, 81034.33, 66196.15, 36972.44, 113864.92};
+
+// Variable para almacenar el índice del ensayo seleccionado
+int ensayoSeleccionado = 0;
+
+// PID object
+PID myPID(&input, &output, &setpoint, Kp[0], Ki[0], Kd[0], DIRECT);
+
+// Variables para control automático
+bool control_automatico = false;
+
 // Función de interrupción para contar los impulsos del ventilador
 void medirVelocidad() {
   contadorImpulsos++;
+}
+
+// Función para seleccionar el ensayo adecuado según la temperatura deseada
+void seleccionarEnsayo(double temperaturaDeseada) {
+  if (temperaturaDeseada <= 31.55) {
+    ensayoSeleccionado = 3; // Ensayo 4
+  } else if (temperaturaDeseada <= 33.97) {
+    ensayoSeleccionado = 4; // Ensayo 5
+  } else if (temperaturaDeseada <= 39.34) {
+    ensayoSeleccionado = 0; // Ensayo 1
+  } else if (temperaturaDeseada <= 50.28) {
+    ensayoSeleccionado = 2; // Ensayo 3
+  } else if (temperaturaDeseada <= 51.66) {
+    ensayoSeleccionado = 1; // Ensayo 2
+  }
+  
+  // Ajustar los parámetros PID según el ensayo seleccionado
+  myPID.SetTunings(Kp[ensayoSeleccionado], Ki[ensayoSeleccionado], Kd[ensayoSeleccionado]);
 }
 
 void setup() {
@@ -46,6 +82,11 @@ void setup() {
 
   // Configuración de interrupción para medir velocidad del ventilador
   attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, FALLING);
+
+    // Inicializar PID
+  setpoint = 30.0; // Temperatura inicial deseada, ajustable desde Python
+  myPID.SetMode(AUTOMATIC);
+  myPID.SetOutputLimits(0, 100); // El PID controla la potencia de la luz entre 0 y 100
 }
 
 void loop() {
@@ -58,6 +99,14 @@ void loop() {
     logResistencia = log(resistenciaNTC); // Logaritmo natural de la resistencia
     tempKelvin = 1.0 / (A_COEFF + B_COEFF * logResistencia + C_COEFF * pow(logResistencia, 3)); // Conversión a grados Kelvin
     tempCelsius = tempKelvin - 273.15; // Conversión a grados Celsius
+
+    // Si el control automático está activado, actualizamos el PID
+    if (control_automatico) {
+      input = tempCelsius;  // Actualizar la entrada del PID con la temperatura medida
+      myPID.Compute();      // Calcular la salida del PID
+      int Salida = map(output, 0, 100, 0, 255);  // Mapear la salida del PID al rango de 0 a 255
+      analogWrite(LUZ_PIN, Salida);  // Ajustar la potencia de la luz con la salida del PID
+    }
 
     tiempoAnteriorTemp = millis(); // Actualizar el tiempo de la última medición de temperatura
   }
@@ -98,8 +147,22 @@ if (millis() - tiempoAnteriorVel >= 1000) {
 
     comando = Serial.readStringUntil('\n');
 
+    // Activar o desactivar el control automático
+    if (comando == "AUTOMATIC_ON") {
+      control_automatico = true;  // Activar el control automático
+    }
+    if (comando == "AUTOMATIC_OFF") {
+      control_automatico = false;  // Desactivar el control automático (modo manual)
+    }
+
+    // Comando para ajustar el setpoint y activar el control automático
+    if (comando.startsWith("SETPOINT") && control_automatico) {
+      String valorSetpoint = comando.substring(9);  // Extraer el valor del setpoint
+      setpoint = valorSetpoint.toDouble();  // Actualizar el setpoint del PID
+    }
+
     // Comando para controlar la luz
-    if (comando.startsWith("LUZ")) {
+    else if (comando.startsWith("LUZ") && !control_automatico) {
       valorLuz = comando.substring(4);
       potenciaLuz = valorLuz.toInt();
       potenciaLuz = map(potenciaLuz, 0, 100, 0, 255);
@@ -107,7 +170,7 @@ if (millis() - tiempoAnteriorVel >= 1000) {
     }
 
     // Comando para controlar el ventilador
-    else if (comando.startsWith("VENT")) {
+    else if (comando.startsWith("VENT") && !control_automatico) {
       valorVentilador = comando.substring(5);
       velocidadVentilador = valorVentilador.toInt();
       velocidadVentilador = map(velocidadVentilador, 0, 100, 0, 255);
@@ -121,4 +184,4 @@ if (millis() - tiempoAnteriorVel >= 1000) {
     }
     }
   }
-}
+} 

@@ -1,7 +1,7 @@
-import serial 
+import serial
 from PyQt6 import uic, QtWidgets
 from PyQt6.QtWidgets import QMainWindow, QFileDialog
-from PyQt6.QtCore import QTimer, QDateTime
+from PyQt6.QtCore import QTimer, QDateTime, Qt  
 import sys
 import csv
 import pyqtgraph as pg  
@@ -18,10 +18,13 @@ class Plataforma(QMainWindow):
         # Variables para registro de datos
         self.datos = []
         self.registrando = False
+        self.control_automatico = False   
 
         # Conectar señales de los sliders
         self.slider_luz.valueChanged.connect(self.enviar_luz)
         self.slider_ventilador.valueChanged.connect(self.enviar_ventilador)
+        self.slider_setpoint.valueChanged.connect(self.enviar_setpoint) 
+        self.Controlbox.stateChanged.connect(self.toggle_control_automatico)  # Conectar CheckBox
 
         # Botones para iniciar y detener registro
         self.boton_iniciar.clicked.connect(self.iniciar_registro)
@@ -73,6 +76,27 @@ class Plataforma(QMainWindow):
         self.curve_potencia_vent = self.plot_potencia_vent.plot(pen='y')
         self.plot_potencia_vent.setXLink(self.plot_temp)  # Sincronizar eje X
 
+    def toggle_control_automatico(self):
+        """
+        Esta función activa o desactiva el control automático según el estado del CheckBox.
+        """
+        if self.Controlbox.isChecked():
+            # Activar el control automático (PID)
+            self.control_automatico = True
+            self.serial_port.write(b'AUTOMATIC_ON\n')  # Enviar comando a Arduino
+            self.slider_luz.setEnabled(False)  # Desactivar el control manual
+            self.slider_ventilador.setEnabled(False)
+            self.slider_setpoint.setEnabled(True)  # Activar el control de setpoint
+            self.label_control_estado.setText("Control automático")
+        else:
+            # Desactivar el control automático (PID)
+            self.control_automatico = False
+            self.serial_port.write(b'AUTOMATIC_OFF\n')  # Enviar comando a Arduino
+            self.slider_luz.setEnabled(True)  # Activar el control manual
+            self.slider_ventilador.setEnabled(True)
+            self.slider_setpoint.setEnabled(False)  # Desactivar el control de setpoint
+            self.label_control_estado.setText("Control manual")
+
     def enviar_luz(self, valor):
         comando = f'LUZ {valor}\n'
         self.serial_port.write(comando.encode('utf-8'))
@@ -89,6 +113,11 @@ class Plataforma(QMainWindow):
         self.serial_port.write(comando.encode('utf-8'))
         self.lcdVentilador.display(valor)
         self.potencia_ventilador = valor  # Guardar el valor actual del ventilador
+
+    def enviar_setpoint(self, valor):
+        comando = f'SETPOINT {valor}\n'
+        self.serial_port.write(comando.encode('utf-8'))
+        self.lcdSetpoint.display(valor)
 
     def iniciar_registro(self):
         # Abrir diálogo para guardar el archivo CSV
