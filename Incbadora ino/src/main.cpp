@@ -3,9 +3,9 @@
 
 // Definición de pines
 #define NTC_PIN A0 // pin NTC
-#define LUZ_PIN 3 // pin Luz
+#define LUZ_PIN 3  // pin Luz
 #define VENT_PIN 9 // pin Ventilador
-#define VEL_PIN 2 // pin Velocidad Tacometro
+#define VEL_PIN 2  // pin Velocidad Tacometro
 
 // Constantes para el cálculo de la temperatura
 #define A_COEFF 0.5458630405e-3
@@ -16,7 +16,7 @@
 float resistenciaNTC, logResistencia, tempKelvin, tempCelsius;
 int lecturaNTC, potenciaVentilador, potenciaLuz, velocidadVentilador;
 volatile int contadorImpulsos = 0; // Declarar como volatile
-volatile float velocidadRPM = 0; // Declarar como volatile
+volatile float velocidadRPM = 0;   // Declarar como volatile
 unsigned long tiempoAnteriorTemp, tiempoAnteriorVel, tiempoImprimir;
 unsigned long ultimoTiempoRPM;
 
@@ -39,6 +39,20 @@ PID myPID(&input, &output, &setpoint, Kp[0], Ki[0], Kd[0], DIRECT);
 
 // Variables para control automático
 bool control_automatico = false;
+
+// Definir un arreglo para almacenar las últimas 5 lecturas de RPM
+float ultimasRPM[5] = {0, 0, 0, 0, 0}; // Inicialmente con ceros
+int indiceRPM = 0;  // Índice para llevar la cuenta de la posición actual
+float promedioRPM = 0;  // Variable para almacenar el promedio de las últimas 5 lecturas  
+
+// Función para calcular el promedio de los últimos 5 valores
+float calcularPromedioRPM() {
+  float suma = 0;
+  for (int i = 0; i < 5; i++) {
+    suma += ultimasRPM[i];
+  }
+  return suma / 5;  // Devolver el promedio
+}
 
 // Función de interrupción para contar los impulsos del ventilador
 void medirVelocidad() {
@@ -66,8 +80,6 @@ void seleccionarEnsayo(double temperaturaDeseada) {
 void setup() {
   Serial.begin(115200);
 
-  TCCR1B = (TCCR1B & 0b11111000) | 0x01;  // Configura el prescaler a 1 (frecuencia máxima) al pin 9
-
   // Inicialización de tiempos
   tiempoAnteriorTemp = millis();
   tiempoAnteriorVel = millis();
@@ -83,7 +95,7 @@ void setup() {
   // Configuración de interrupción para medir velocidad del ventilador
   attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, FALLING);
 
-    // Inicializar PID
+  // Inicializar PID
   setpoint = 25; // Temperatura inicial deseada, ajustable desde Python
   myPID.SetMode(AUTOMATIC);
   myPID.SetOutputLimits(0, 100); // El PID controla la potencia de la luz entre 0 y 100
@@ -112,39 +124,44 @@ void loop() {
   }
 
   // Cálculo de la velocidad del ventilador cada 1000 ms
-if (millis() - tiempoAnteriorVel >= 1000) {
-  unsigned long tiempoActual = millis();
-  unsigned long tiempoTranscurrido = tiempoActual - ultimoTiempoRPM;
+  if (millis() - tiempoAnteriorVel >= 1000) {
+    unsigned long tiempoActual = millis();
+    unsigned long tiempoTranscurrido = tiempoActual - ultimoTiempoRPM;
 
-  // Deshabilitar interrupciones mientras se lee y reinicia el contador
-  noInterrupts();
-  int pulsos = contadorImpulsos;
-  contadorImpulsos = 0; // Reiniciar el contador de pulsos
-  interrupts();
+    // Deshabilitar interrupciones mientras se lee y reinicia el contador
+    noInterrupts();
+    int pulsos = contadorImpulsos;
+    contadorImpulsos = 0; // Reiniciar el contador de pulsos
+    interrupts();
 
+    if (tiempoTranscurrido > 0 && pulsos > 0) {
+      // Suponiendo que el ventilador genera 2 pulsos por revolución
+      velocidadRPM = (pulsos) * (6000.0 / tiempoTranscurrido);
+    } else if (tiempoTranscurrido > 0 && pulsos == 0) {
+      velocidadRPM = 0;  // Si no hay pulsos, la velocidad es 0
+    }
 
-  if (tiempoTranscurrido > 0 && pulsos > 0) {
-    // Suponiendo que el ventilador genera 2 pulsos por revolución
-    velocidadRPM = (pulsos / 2.0) * (6000.0 / tiempoTranscurrido);
-  } else if (tiempoTranscurrido > 0 && pulsos == 0) {
-    velocidadRPM = 0;  // Si no hay pulsos, la velocidad es 0
+    // Actualizar el arreglo con la nueva lectura de RPM
+    ultimasRPM[indiceRPM] = velocidadRPM;
+    indiceRPM = (indiceRPM + 1) % 5;  // Mover el índice circularmente entre 0 y 4
+
+    // Calcular el promedio de las últimas 5 lecturas
+    promedioRPM = calcularPromedioRPM();
+
+    ultimoTiempoRPM = tiempoActual;  // Actualizar el tiempo de referencia
+    tiempoAnteriorVel = tiempoActual; // Actualizar el tiempo de la última medición de velocidad
   }
-
-  ultimoTiempoRPM = tiempoActual;  // Actualizar el tiempo de referencia
-  tiempoAnteriorVel = tiempoActual; // Actualizar el tiempo de la última medición de velocidad
-}
 
   // Impresión de datos cada 300 ms
   if (millis() - tiempoImprimir >= 300) {
     Serial.print(tempCelsius);
     Serial.print(";");
-    Serial.println(velocidadRPM);
+    Serial.println(promedioRPM);  // Imprimir el promedio de RPM
 
     tiempoImprimir = millis(); // Actualizar el tiempo de la última impresión
   }
 
   if (Serial.available() > 0) {
-
     comando = Serial.readStringUntil('\n');
 
     // Activar o desactivar el control automático
@@ -174,14 +191,14 @@ if (millis() - tiempoAnteriorVel >= 1000) {
       valorVentilador = comando.substring(5);
       velocidadVentilador = valorVentilador.toInt();
       velocidadVentilador = map(velocidadVentilador, 0, 100, 0, 255);
-      //corriente de arranque
+      // Corriente de arranque
       if (velocidadVentilador > 0) {
         analogWrite(VENT_PIN, 255);
         delay(200);
         analogWrite(VENT_PIN, velocidadVentilador);
       } else if (velocidadVentilador == 0) {
-      analogWrite(VENT_PIN, velocidadVentilador);
-    }
+        analogWrite(VENT_PIN, velocidadVentilador);
+      }
     }
   }
-} 
+}
