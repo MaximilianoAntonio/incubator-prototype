@@ -43,13 +43,26 @@ bool control_automatico = false;
 // Definir un arreglo para almacenar las últimas 5 lecturas de RPM
 float ultimasRPM[5] = {0, 0, 0, 0, 0}; // Inicialmente con ceros
 int indiceRPM = 0;  // Índice para llevar la cuenta de la posición actual
-float promedioRPM = 0;  // Variable para almacenar el promedio de las últimas 5 lecturas  
+float promedioRPM ; // Variable para almacenar el promedio de las últimas 5 lecturas de RPM
 
-// Función para calcular el promedio de los últimos 5 valores
+// Definir un arreglo para almacenar las últimas 5 lecturas de temperatura
+float ultimasTemp[5] = {0, 0, 0, 0, 0}; // Inicialmente con ceros
+int indiceTemp = 0;  // Índice para llevar la cuenta de la posición actual
+
+// Función para calcular el promedio de los últimos 5 valores de RPM
 float calcularPromedioRPM() {
   float suma = 0;
   for (int i = 0; i < 5; i++) {
     suma += ultimasRPM[i];
+  }
+  return suma / 5;  // Devolver el promedio
+}
+
+// Función para calcular el promedio de los últimos 5 valores de temperatura
+float calcularPromedioTemp() {
+  float suma = 0;
+  for (int i = 0; i < 5; i++) {
+    suma += ultimasTemp[i];
   }
   return suma / 5;  // Devolver el promedio
 }
@@ -112,9 +125,13 @@ void loop() {
     tempKelvin = 1.0 / (A_COEFF + B_COEFF * logResistencia + C_COEFF * pow(logResistencia, 3)); // Conversión a grados Kelvin
     tempCelsius = tempKelvin - 273.15; // Conversión a grados Celsius
 
+    // Actualizar el arreglo con la nueva lectura de temperatura
+    ultimasTemp[indiceTemp] = tempCelsius;
+    indiceTemp = (indiceTemp + 1) % 5;  // Mover el índice circularmente entre 0 y 4
+
     // Si el control automático está activado, actualizamos el PID
     if (control_automatico) {
-      input = tempCelsius;  // Actualizar la entrada del PID con la temperatura medida
+      input = calcularPromedioTemp();  // Usar el promedio de temperatura como entrada para el PID
       myPID.Compute();      // Calcular la salida del PID
       int Salida = map(output, 0, 100, 0, 255);  // Mapear la salida del PID al rango de 0 a 255
       analogWrite(LUZ_PIN, Salida);  // Ajustar la potencia de la luz con la salida del PID
@@ -145,7 +162,7 @@ void loop() {
     ultimasRPM[indiceRPM] = velocidadRPM;
     indiceRPM = (indiceRPM + 1) % 5;  // Mover el índice circularmente entre 0 y 4
 
-    // Calcular el promedio de las últimas 5 lecturas
+    // Calcular el promedio de las últimas 5 lecturas de RPM
     promedioRPM = calcularPromedioRPM();
 
     ultimoTiempoRPM = tiempoActual;  // Actualizar el tiempo de referencia
@@ -154,7 +171,7 @@ void loop() {
 
   // Impresión de datos cada 300 ms
   if (millis() - tiempoImprimir >= 300) {
-    Serial.print(tempCelsius);
+    Serial.print(calcularPromedioTemp()); // Imprimir el promedio de temperatura
     Serial.print(";");
     Serial.println(promedioRPM);  // Imprimir el promedio de RPM
 
