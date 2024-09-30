@@ -84,7 +84,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, FALLING);
 
     // Inicializar PID
-  setpoint = 30.0; // Temperatura inicial deseada, ajustable desde Python
+  setpoint = 25; // Temperatura inicial deseada, ajustable desde Python
   myPID.SetMode(AUTOMATIC);
   myPID.SetOutputLimits(0, 100); // El PID controla la potencia de la luz entre 0 y 100
 }
