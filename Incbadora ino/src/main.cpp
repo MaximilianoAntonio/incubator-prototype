@@ -24,18 +24,9 @@ unsigned long ultimoTiempoRPM;
 String comando, valorLuz, valorVentilador;
 
 // Variables PID
-double setpoint, input, output;
-
-// Parámetros PID para los diferentes ensayos
-double Kp[] = {40.46, 78.22, 72.31, 82.21, 196.53};
-double Ki[] = {0.108, 0.075, 0.079, 0.183, 0.170};
-double Kd[] = {15115.43, 81034.33, 66196.15, 36972.44, 113864.92};
-
-// Variable para almacenar el índice del ensayo seleccionado
-int ensayoSeleccionado = 0;
-
-// PID object
-PID myPID(&input, &output, &setpoint, Kp[0], Ki[0], Kd[0], DIRECT);
+double Setpoint, Input, Output;
+double Kp = 230.4, Ki = 11.52, Kd = 1152.0;
+PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 
 // Variables para control automático
 bool control_automatico = false;
@@ -72,23 +63,6 @@ void medirVelocidad() {
   contadorImpulsos++;
 }
 
-// Función para seleccionar el ensayo adecuado según la temperatura deseada
-void seleccionarEnsayo(double temperaturaDeseada) {
-  if (temperaturaDeseada <= 31.55) {
-    ensayoSeleccionado = 3; // Ensayo 4
-  } else if (temperaturaDeseada <= 33.97) {
-    ensayoSeleccionado = 4; // Ensayo 5
-  } else if (temperaturaDeseada <= 39.34) {
-    ensayoSeleccionado = 0; // Ensayo 1
-  } else if (temperaturaDeseada <= 50.28) {
-    ensayoSeleccionado = 2; // Ensayo 3
-  } else if (temperaturaDeseada <= 51.66) {
-    ensayoSeleccionado = 1; // Ensayo 2
-  }
-  
-  // Ajustar los parámetros PID según el ensayo seleccionado
-  myPID.SetTunings(Kp[ensayoSeleccionado], Ki[ensayoSeleccionado], Kd[ensayoSeleccionado]);
-}
 
 void setup() {
   Serial.begin(115200);
@@ -107,11 +81,8 @@ void setup() {
 
   // Configuración de interrupción para medir velocidad del ventilador
   attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, FALLING);
-
-  // Inicializar PID
-  setpoint = 25; // Temperatura inicial deseada, ajustable desde Python
   myPID.SetMode(AUTOMATIC);
-  myPID.SetOutputLimits(0, 100); // El PID controla la potencia de la luz entre 0 y 100
+  myPID.SetOutputLimits(0, 255); 
 }
 
 void loop() {
@@ -131,16 +102,16 @@ void loop() {
 
     // Si el control automático está activado, actualizamos el PID
     if (control_automatico) {
-      input = calcularPromedioTemp();  // Usar el promedio de temperatura como entrada para el PID
-      myPID.Compute();      // Calcular la salida del PID
-      int Salida = map(output, 0, 100, 0, 255);  // Mapear la salida del PID al rango de 0 a 255
-      analogWrite(LUZ_PIN, Salida);  // Ajustar la potencia de la luz con la salida del PID
+      Input = calcularPromedioTemp();
+      myPID.Compute();
+      analogWrite(LUZ_PIN, Output);
     }
 
     tiempoAnteriorTemp = millis(); // Actualizar el tiempo de la última medición de temperatura
   }
 
   // Cálculo de la velocidad del ventilador cada 1000 ms
+
   if (millis() - tiempoAnteriorVel >= 1000) {
     unsigned long tiempoActual = millis();
     unsigned long tiempoTranscurrido = tiempoActual - ultimoTiempoRPM;
@@ -173,7 +144,9 @@ void loop() {
   if (millis() - tiempoImprimir >= 300) {
     Serial.print(calcularPromedioTemp()); // Imprimir el promedio de temperatura
     Serial.print(";");
-    Serial.println(promedioRPM);  // Imprimir el promedio de RPM
+    Serial.print(promedioRPM);  
+    Serial.print(";");
+    Serial.println(map(Output, 0, 255, 0, 100)); 
 
     tiempoImprimir = millis(); // Actualizar el tiempo de la última impresión
   }
@@ -192,7 +165,7 @@ void loop() {
     // Comando para ajustar el setpoint y activar el control automático
     if (comando.startsWith("SETPOINT") && control_automatico) {
       String valorSetpoint = comando.substring(9);  // Extraer el valor del setpoint
-      setpoint = valorSetpoint.toDouble();  // Actualizar el setpoint del PID
+      Setpoint = valorSetpoint.toDouble();  // Actualizar el setpoint del PID
     }
 
     // Comando para controlar la luz

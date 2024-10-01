@@ -13,7 +13,7 @@ class Plataforma(QMainWindow):
         uic.loadUi("Plataforma.ui", self)
         
         # Configurar conexión serial
-        self.serial_port = serial.Serial('COM12', 115200, timeout=1)
+        self.serial_port = serial.Serial('COM10', 115200, timeout=1)
 
         # Variables para registro de datos
         self.datos = []
@@ -44,6 +44,7 @@ class Plataforma(QMainWindow):
         self.temperaturas = []
         self.velocidades = []
         self.potencias_luz = []
+        self.potencias_luz_aplicada = []
         self.potencias_ventilador = []
 
         # Configurar gráficos utilizando PyQtGraph
@@ -66,9 +67,15 @@ class Plataforma(QMainWindow):
 
         self.win.nextRow()
 
-        self.plot_potencia_luz = self.win.addPlot(title="Potencia Luz vs Tiempo")
+        self.plot_potencia_luz = self.win.addPlot(title="Potencia Luz (%) vs Tiempo")
         self.curve_potencia_luz = self.plot_potencia_luz.plot(pen='g')
         self.plot_potencia_luz.setXLink(self.plot_temp)  # Sincronizar eje X
+
+        self.win.nextRow()
+
+        self.plot_potencia_luz_aplicada = self.win.addPlot(title="Potencia Luz Aplicada (%) vs Tiempo")
+        self.curve_potencia_luz_aplicada = self.plot_potencia_luz_aplicada.plot(pen='m')  # Color magenta
+        self.plot_potencia_luz_aplicada.setXLink(self.plot_temp)  # Sincronizar eje X
 
         self.win.nextRow()
 
@@ -125,7 +132,8 @@ class Plataforma(QMainWindow):
         if nombre_archivo:
             self.archivo_csv = open(nombre_archivo, 'w', newline='')
             self.csv_writer = csv.writer(self.archivo_csv)
-            self.csv_writer.writerow(['Tiempo', 'Temperatura (°C)', 'Potencia Luz (%)', 'Velocidad Ventilador (RPM)', 'Potencia Ventilador (%)'])
+            # Encabezado del CSV con el símbolo %
+            self.csv_writer.writerow(['Tiempo', 'Temperatura (°C)', 'Potencia Luz (%)', 'Potencia Luz Aplicada (%)', 'Velocidad Ventilador (RPM)', 'Potencia Ventilador (%)'])
             self.registrando = True
             self.tiempo_inicial = QDateTime.currentDateTime()
             self.statusBar().showMessage('Registro iniciado')
@@ -136,6 +144,7 @@ class Plataforma(QMainWindow):
             self.temperaturas = []
             self.velocidades = []
             self.potencias_luz = []
+            self.potencias_luz_aplicada = []
             self.potencias_ventilador = []
 
     def detener_registro(self):
@@ -149,33 +158,65 @@ class Plataforma(QMainWindow):
             linea = self.serial_port.readline().decode('utf-8').strip()
             if linea:
                 datos = linea.split(';')
-                if len(datos) == 2:
+                if len(datos) == 3:
                     temp = float(datos[0])
                     velocidad = float(datos[1])
+                    potencia_luz_aplicada = float(datos[2])
                     self.label_temperatura.setText(f'Temperatura: {temp:.1f} °C')
                     self.label_velocidad.setText(f'Velocidad: {int(velocidad)} RPM')
+                    self.label_potencia_luz.setText(f'Potencia Luz: {potencia_luz_aplicada:.0f}%')
 
                     if self.registrando:
                         tiempo_actual = QDateTime.currentDateTime()
                         tiempo_transcurrido = self.tiempo_inicial.msecsTo(tiempo_actual) / 1000.0  # En segundos
-                        self.csv_writer.writerow([tiempo_transcurrido, temp, self.potencia_luz, velocidad, self.potencia_ventilador])
-                        self.datos.append((tiempo_transcurrido, temp, self.potencia_luz, velocidad, self.potencia_ventilador))
+
+                        # Preparar los datos a escribir según el modo de control
+                        if self.control_automatico:
+                            # En control automático, no guardamos Potencia Luz (%) manual
+                            fila = [tiempo_transcurrido, temp, '', potencia_luz_aplicada, velocidad, self.potencia_ventilador]
+                        else:
+                            # En modo manual, no guardamos Potencia Luz Aplicada (%)
+                            fila = [tiempo_transcurrido, temp, self.potencia_luz, '', velocidad, self.potencia_ventilador]
+
+                        # Escribir la fila en el CSV
+                        self.csv_writer.writerow(fila)
 
                         # Actualizar datos para los gráficos
                         self.tiempos.append(tiempo_transcurrido)
                         self.temperaturas.append(temp)
                         self.velocidades.append(velocidad)
-                        self.potencias_luz.append(self.potencia_luz)
                         self.potencias_ventilador.append(self.potencia_ventilador)
 
+                        if self.control_automatico:
+                            self.potencias_luz_aplicada.append(potencia_luz_aplicada)
+                            self.potencias_luz.append(None)  # No hay potencia luz manual en automático
+                        else:
+                            self.potencias_luz_aplicada.append(None)  # No hay potencia luz aplicada en manual
+                            self.potencias_luz.append(self.potencia_luz)
+                        
                         # Actualizar los gráficos en tiempo real
                         self.actualizar_graficos()
 
     def actualizar_graficos(self):
         self.curve_temp.setData(self.tiempos, self.temperaturas)
         self.curve_vel.setData(self.tiempos, self.velocidades)
-        self.curve_potencia_luz.setData(self.tiempos, self.potencias_luz)
         self.curve_potencia_vent.setData(self.tiempos, self.potencias_ventilador)
+
+        # Actualizar el gráfico de potencia luz manual
+        tiempos_potencia_luz = [t for t, p in zip(self.tiempos, self.potencias_luz) if p is not None]
+        potencias_luz_validas = [p for p in self.potencias_luz if p is not None]
+        if tiempos_potencia_luz and potencias_luz_validas:
+            self.curve_potencia_luz.setData(tiempos_potencia_luz, potencias_luz_validas)
+        else:
+            self.curve_potencia_luz.clear()
+
+        # Actualizar el gráfico de potencia luz aplicada
+        tiempos_potencia_luz_aplicada = [t for t, p in zip(self.tiempos, self.potencias_luz_aplicada) if p is not None]
+        potencias_luz_aplicadas_validas = [p for p in self.potencias_luz_aplicada if p is not None]
+        if tiempos_potencia_luz_aplicada and potencias_luz_aplicadas_validas:
+            self.curve_potencia_luz_aplicada.setData(tiempos_potencia_luz_aplicada, potencias_luz_aplicadas_validas)
+        else:
+            self.curve_potencia_luz_aplicada.clear()
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
