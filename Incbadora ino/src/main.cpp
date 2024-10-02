@@ -25,7 +25,7 @@ String comando, valorLuz, valorVentilador;
 
 // Variables PID
 double Setpoint, Input, Output;
-double Kp = 230.4, Ki = 11.52, Kd = 1152.0;
+double Kp = 5.762, Ki = 0.06402, Kd = 0;
 PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 
 // Variables para control automático
