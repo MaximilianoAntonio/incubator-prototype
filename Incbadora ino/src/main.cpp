@@ -3,7 +3,7 @@
 
 // Definición de pines
 #define NTC_PIN A0 // pin NTC
-#define LUZ_PIN 3  // pin Luz
+#define LUZ_PIN 11  // pin Luz
 #define VENT_PIN 9 // pin Ventilador
 #define VEL_PIN 2  // pin Velocidad Tacometro
 
@@ -25,7 +25,7 @@ String comando, valorLuz, valorVentilador;
 
 // Variables PID
 double Setpoint, Input, Output;
-double Kp = 5.762, Ki = 0.06402, Kd = 0;
+double Kp = 30.0, Ki = 1.0, Kd = 0.0;
 PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 
 // Variables para control automático
@@ -82,7 +82,7 @@ void setup() {
   // Configuración de interrupción para medir velocidad del ventilador
   attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, FALLING);
   myPID.SetMode(AUTOMATIC);
-  myPID.SetOutputLimits(0, 255); 
+  myPID.SetOutputLimits(0, 100); 
 }
 
 void loop() {
@@ -104,7 +104,7 @@ void loop() {
     if (control_automatico) {
       Input = calcularPromedioTemp();
       myPID.Compute();
-      analogWrite(LUZ_PIN, Output);
+      analogWrite(LUZ_PIN, map(Output, 0, 100, 0, 255));
     }
 
     tiempoAnteriorTemp = millis(); // Actualizar el tiempo de la última medición de temperatura
@@ -146,7 +146,7 @@ void loop() {
     Serial.print(";");
     Serial.print(promedioRPM);  
     Serial.print(";");
-    Serial.println(map(Output, 0, 255, 0, 100)); 
+    Serial.println(Output); 
 
     tiempoImprimir = millis(); // Actualizar el tiempo de la última impresión
   }
