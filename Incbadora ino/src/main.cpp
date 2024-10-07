@@ -20,6 +20,7 @@ volatile float velocidadRPM = 0;   // Declarar como volatile
 unsigned long tiempoAnteriorTemp, tiempoAnteriorVel, tiempoImprimir;
 unsigned long ultimoTiempoRPM;
 
+
 // Variables para lectura de comandos
 String comando, valorLuz, valorVentilador;
 
@@ -60,7 +61,7 @@ float calcularPromedioTemp() {
 
 // Función de interrupción para contar los impulsos del ventilador
 void medirVelocidad() {
-  contadorImpulsos++;
+    contadorImpulsos++;
 }
 
 
@@ -77,7 +78,7 @@ void setup() {
   pinMode(NTC_PIN, INPUT);
   pinMode(LUZ_PIN, OUTPUT);
   pinMode(VENT_PIN, OUTPUT);
-  pinMode(VEL_PIN, INPUT);
+  pinMode(VEL_PIN, INPUT_PULLUP);
 
   // Configuración de interrupción para medir velocidad del ventilador
   attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, FALLING);
