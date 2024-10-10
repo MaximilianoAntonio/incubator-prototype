@@ -31,7 +31,7 @@ PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 bool control_automatico = false;
 
 // Arreglos para almacenar últimas 5 lecturas
-float ultimasRPM[5] = {0};
+float ultimasRPM;
 float ultimasTemp[5] = {0};
 int indiceRPM = 0;
 int indiceTemp = 0;
@@ -53,6 +53,7 @@ void medirVelocidad() {
 void setup() {
   Serial.begin(115200);
 
+
   // Inicialización de tiempos
   tiempoAnteriorTemp = millis();
   tiempoAnteriorVel = millis();
@@ -63,7 +64,7 @@ void setup() {
   pinMode(NTC_PIN, INPUT);
   pinMode(LUZ_PIN, OUTPUT);
   pinMode(VENT_PIN, OUTPUT);
-  pinMode(VEL_PIN, INPUT_PULLUP);
+  pinMode(VEL_PIN, INPUT);
 
   // Configuración de interrupción para medir velocidad del ventilador
   attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, FALLING);
@@ -103,11 +104,12 @@ void loop() {
     interrupts();
 
     if (tiempoTranscurrido > 0) {
-      velocidadRPM = (pulsos) * (6000.0 / tiempoTranscurrido);
+      velocidadRPM = (pulsos /2.0 ) * (60000.0 / tiempoTranscurrido);
     }
 
-    ultimasRPM[indiceRPM] = velocidadRPM;
-    indiceRPM = (indiceRPM + 1) % 5;
+    //ultimasRPM[indiceRPM] = velocidadRPM;
+    //indiceRPM = (indiceRPM + 1) % 1;
+    ultimasRPM = velocidadRPM;
 
     ultimoTiempoRPM = tiempoActual;
     tiempoAnteriorVel = tiempoActual;
@@ -117,7 +119,7 @@ void loop() {
   if (millis() - tiempoImprimir >= 300) {
     Serial.print(calcularPromedio(ultimasTemp, 5));
     Serial.print(";");
-    Serial.print(calcularPromedio(ultimasRPM, 5));
+    Serial.print(ultimasRPM);
     Serial.print(";");
     Serial.println(Output);
 
@@ -139,10 +141,6 @@ void loop() {
       analogWrite(LUZ_PIN, potenciaLuz);
     } else if (comando.startsWith("VENT") && !control_automatico) {
       potenciaVentilador = map(comando.substring(5).toInt(), 0, 100, 0, 255);
-      if (potenciaVentilador > 0) {
-        analogWrite(VENT_PIN, 255);
-        delay(200);
-      }
       analogWrite(VENT_PIN, potenciaVentilador);
     }
   }
