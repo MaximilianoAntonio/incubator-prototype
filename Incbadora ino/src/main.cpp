@@ -5,7 +5,7 @@
 #define NTC_PIN A0 // Pin NTC
 #define LUZ_PIN 11 // Pin Luz
 #define VENT_PIN 9 // Pin Ventilador
-#define VEL_PIN 2 // Pin Velocidad Tacómetro
+#define VEL_PIN 3 // Pin Velocidad Tacómetro
 
 // Constantes para el cálculo de la temperatura
 #define A_COEFF 0.5458630405e-3
