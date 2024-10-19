@@ -267,13 +267,28 @@
      </rect>
     </property>
     <property name="minimum">
-     <number>24</number>
+     <number>22</number>
     </property>
     <property name="maximum">
-     <number>37</number>
+     <number>34</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
+    </property>
+    <property name="sliderPosition">
+     <number>22</number>
     </property>
     <property name="orientation">
      <enum>Qt::Orientation::Horizontal</enum>
+    </property>
+    <property name="invertedControls">
+     <bool>false</bool>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TickPosition::TicksBothSides</enum>
+    </property>
+    <property name="tickInterval">
+     <number>1</number>
     </property>
    </widget>
    <widget class="QLCDNumber" name="lcdSetpoint">
