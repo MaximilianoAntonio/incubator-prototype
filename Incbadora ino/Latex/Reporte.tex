@@ -87,9 +87,7 @@
         \vspace{2cm} 
     }
     
-    \fancyfoot[C]{\sffamily\fontsize{9pt}{1em}\selectfont
-        General Cruz 222 (ex-Edificio Hucke), Valparaíso, Chile\\
-        \url{https://biomedica.uv.cl}}
+    \fancyfoot[C]{}
 }
 
 \pagestyle{plain}
@@ -152,6 +150,8 @@
 \end{center}
 
 \vfill
+
+
 
 
 \newpage
@@ -517,7 +517,7 @@ Estos gráficos permiten al usuario monitorear el desempeño de la incubadora de
 
 \section{Ensayos y Resultados}
 
-\subsection{Ensayos de Control de Temperatura}
+\subsection{Ensayos de Control de Temperatura con Calefactor}
 
 Para realizar los ensayos se realizaron 5 pruebas de respuesta tipo escalon, variando la potencia de la ampolleta de 0 a 100\% en incrementos de 20\%. Los resultados obtenidos se muestran a continuación.
 
@@ -568,11 +568,14 @@ Para realizar los ensayos se realizaron 5 pruebas de respuesta tipo escalon, var
 \end{figure}
 \FloatBarrier
 
-\subsection{Resultados de Respuesta Escalón de Temperatura}
+De los gráficos podemos visualizar que las curvas de temperatura tienen una forma exponencial con un aumento rápido y una estabilización progresiva. Gráficas que nos permiten obtener los datos del cuadro 3, que son relevantes para nuestra posterior comparación con los ensayos de temperatura con ventilador.
+
+
+\subsubsection{Resultados}
 
 Las pruebas de respuesta a escalón permiten evaluar la capacidad de control del sistema y determinar su desempeño en función de la potencia aplicada. La Potencia al 100\% representa la máxima capacidad de calentamiento de la ampolleta, mientras que la potencia al 0\% representa la condición de apagado total. 
 
-Para realizar el análisis de los resultados, se calcula el tiempo de establecimiento \( t_s \), el sobrepaso máximo \( M_p \), la constante de tiempo \( K \), la temperatura maxima para cada ensayo.
+Para realizar el análisis de los resultados, se calcula el tiempo de asentamiento \( t_s \), la diferencia de temperatura, la temperatura maxima para cada ensayo y la potencia de radiación.
 
 \newpage
 
@@ -583,27 +586,8 @@ Para realizar el análisis de los resultados, se calcula el tiempo de establecim
 \Delta T_{\text{final}} = T_{\text{final}} - T_{\text{inicial}}
 \]
 
-\subsubsection*{Ganancia Estática (\( K \)):}
-\[
-K = \frac{\Delta T_{\text{final}}}{\Delta P}
-\]
 
-\subsubsection*{Constante de Tiempo (\( \tau \)):}
-\[
-T_{\tau} = T_{\text{inicial}} + 0.632 \times \Delta T_{\text{final}}
-\]
-
-\subsubsection*{Tiempo de Asentamiento (\( t_s \)):}
-\[
-t_s \approx 4 \times \tau
-\]
-
-\subsubsection*{Sobrepaso (\( M_p \)) (si ocurre):}
-\[
-M_p = \frac{T_{\text{max}} - T_{\text{final}}}{T_{\text{final}}} \times 100
-\]
-
-\subsubsection{Cálculo de la Potencia de Radiación}
+\subsubsection*{Cálculo de la Potencia de Radiación}
 
 La potencia de radiación de la ampolleta se calcula como:
 
@@ -616,213 +600,175 @@ Donde \( V = 12 \, \text{V} \) es el voltaje de la ampolleta y \( I \) es la cor
 En este caso la potencia total es de 20.4 W ya que los valores maximos alcanzados por la ampolleta son \( V = 12 \, \text{V} \) y \( I = 1.7 \, \text{A} \).
 
 Al tener la eficiencia luminica de la ampolleta que es 0.05\%, se puede calcular la potencia de radiación.
-
 \[
 P_{\text{Radiación Luminica}} = P \cdot \text{Eficiencia}
 \]
-
 \[
 P_{\text{Radiación calorica}} = P_{\text{Total}} - P_{\text{Radiación Luminica}}
 \]
-Esto se puede observar en el cuadro \ref{tab:escalones} para cada ensayo.
+
+Se presentan los resultados obtenidos en la siguiente tabla:
 
 \begin{table}[ht]
     \resizebox{\textwidth}{!}{
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|c|}
     \hline
-    \textbf{Ensayo} & \textbf{Potencia (\%)} & \textbf{Potencia de Radiación. (W)}  \\ 
+    \textbf{Ensayo} & \textbf{Potencia (\%)} & \textbf{Temp. Inicial (°C)} & \textbf{Temp. Final (°C)} & \textbf{Cambio en Temp. (°C)} & \textbf{Potencia de Radiación (W)} \\ 
     \hline
-    1 & 100 & 18.6  \\ 
+    1 & 100 & 23.25 & 37.13 & 13.88 & 18.6 \\ 
     \hline
-    2 & 80 & 14.9  \\ 
+    2 & 80 & 22.95 & 32.52 & 9.57 & 14.9 \\ 
     \hline
-    3 & 60 & 11.2  \\ 
+    3 & 60 & 22.88 & 30.01 & 7.13 & 11.2 \\ 
     \hline
-    4 & 40 & 7.4  \\ 
+    4 & 40 & 21.79 & 27.46 & 5.67 & 7.4 \\ 
     \hline
-    5 & 20 & 3.7 \\ 
-    \hline
-    \end{tabular}
-    }
-    \caption{Potencia de radiación según la potencia aplicada.\label{tab:escalones}}
-\end{table}
-\FloatBarrier
-
-\subsubsection{Analisis Prueba 1: 100\% de potencia} 
-
-\[
-T_{\text{max}} = 37.43 \,^\circ\mathrm{C}
-\]
-\[
-\Delta T_{\text{final}} = 37.13 - 23.25 = 13.88 \,^\circ\mathrm{C}
-\]
-\[
-K = \frac{13.89}{100} = 0.1389 \,^\circ\mathrm{C/P\%}
-\]
-\[
-t_s = 4 \times 296.12 = 1184.48 \, \text{s}
-\]
-\[
-M_p = \frac{37.43 - 37.13}{37.13} \times 100 = 0.81\%
-\]
-
-\subsubsection{Analisis Prueba 2: 80\% de potencia}
-
-\[
-T_{\text{max}} = 32.69 \,^\circ\mathrm{C}
-\]
-\[
-\Delta T_{\text{final}} = 32.52 - 22.95 = 9.57 \,^\circ\mathrm{C}
-\]
-\[
-K = \frac{9.56}{80} = 0.1195 \,^\circ\mathrm{C/P\%}
-\]
-\[
-t_s = 4 \times 236.68 = 946.72 \, \text{s}
-\]
-\[
-M_p = \frac{32.69 - 32.52}{32.52} \times 100 = 0.52\%
-\]
-
-\subsubsection{Analisis Prueba 3: 60\% de potencia}
-
-\[
-T_{\text{max}} = 30.07 \,^\circ\mathrm{C}
-\]
-\[
-\Delta T_{\text{final}} = 30.01 - 22.88 = 7.13 \,^\circ\mathrm{C}
-\]
-\[
-K = \frac{7.13}{60} = 0.1188 \,^\circ\mathrm{C/P\%}
-\]
-\[
-t_s = 4 \times 205.53 = 822.12 \, \text{s}
-\]
-\[
-M_p = \frac{30.07 - 30.01}{30.01} \times 100 = 0.20\%
-\]
-
-\subsubsection{Analisis Prueba 4: 40\% de potencia}
-
-\[
-T_{\text{max}} = 27.72 \,^\circ\mathrm{C}
-\]
-\[
-\Delta T_{\text{final}} = 27.46 - 21.79 = 5.67 \,^\circ\mathrm{C}
-\]
-\[
-K = \frac{5.67}{40} = 0.1417 \,^\circ\mathrm{C/P\%}
-\]
-\[
-t_s = 4 \times 216.53 = 866.12 \, \text{s}
-\]
-\[
-M_p = \frac{27.72 - 27.46}{27.46} \times 100 = 0.95\%
-\]
-
-\subsubsection{Analisis Prueba 5: 20\% de potencia}
-
-\[
-T_{\text{max}} = 25.11 \,^\circ\mathrm{C}
-\]
-\[
-\Delta T_{\text{final}} = 24.60 - 22.43 = 2.17 \,^\circ\mathrm{C}
-\]
-\[
-K = \frac{2.17}{20} = 0.1085 \,^\circ\mathrm{C/P\%}
-\]
-\[
-t_s = 4 \times 264.67 = 1058.68 \, \text{s}
-\]
-\[
-M_p = \frac{25.11 - 24.60}{24.60} \times 100 = 2.07\%
-\]
-
-\subsubsection{Resultados Finales}
-Para aclarar al lector, se presentan los resultados obtenidos en el cuadro \ref{tab:resultados}.
-
-\begin{table}[ht]
-    \resizebox{\textwidth}{!}{
-    \begin{tabular}{|c|c|c|c|c|}
-    \hline
-    \textbf{Ensayo} & \textbf{Potencia (\%)} & \textbf{Temp. Inicial (°C)} & \textbf{Temp. Final (°C)} & \textbf{Cambio en Temp. (°C)} \\ 
-    \hline
-    1 & 100 & 23.25 & 37.13 & 13.88 \\ 
-    \hline
-    2 & 80 & 22.95 & 32.52 & 9.57 \\ 
-    \hline
-    3 & 60 & 22.88 & 30.01 & 7.13 \\ 
-    \hline
-    4 & 40 & 21.79 & 27.46 & 5.67 \\ 
-    \hline
-    5 & 20 & 22.43 & 24.60 & 2.17 \\ 
+    5 & 20 & 22.43 & 24.60 & 2.17 & 3.7 \\ 
     \hline
     \end{tabular}
     }
-    \caption{Resultados de los ensayos sin ventilador.\label{tab:resultados}}
+    \caption{Resultados de los ensayos de temperatura sin ventilador. 
+    }
 \end{table}
+
 \FloatBarrier
 
-\subsection{Ensayos de Control de Velocidad del Ventilador}
+
+\subsection{Ensayos de Temperatura con Distintas Velocidades del Ventilador}
 
 Para realizar los ensayos se realizaron 5 pruebas de respuesta tipo escalon, variando la velocidad del ventilador. Los resultados obtenidos se muestran a continuación.
 
+\pagebreak
+
 \subsubsection{Prueba 1: 100\% de Potencia, Ventilador a 12v, 9,5v y 7v}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{./figures/ventilador_100.png}
+    \caption{Respuesta de la temperatura a un escalón de 100\% de potencia y 3 velocidades de ventilador.}
+\end{figure}
+\FloatBarrier
 
 \subsubsection{Prueba 2: 80\% de Potencia, Ventilador a 12v, 9,5v y 7v}
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{./figures/ventilador_80.png}
+    \caption{Respuesta de la temperatura a un escalón de 80\% de potencia y 3 velocidades de ventilador.}
+\end{figure}
+\FloatBarrier
+
 \subsubsection{Prueba 3: 60\% de Potencia, Ventilador a 12v, 9,5v y 7v}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{./figures/ventilador_60.png}
+    \caption{Respuesta de la temperatura a un escalón de 60\% de potencia y 3 velocidades de ventilador.}
+\end{figure}
+\FloatBarrier
+\pagebreak
 
 \subsubsection{Prueba 4: 40\% de Potencia, Ventilador a 12v, 9,5v y 7v}
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{./figures/ventilador_40.png}
+    \caption{Respuesta de la temperatura a un escalón de 40\% de potencia y 3 velocidades de ventilador.}
+\end{figure}
+\FloatBarrier
+
 \subsubsection{Prueba 5: 20\% de Potencia, Ventilador a 12v, 9,5v y 7v}
 
-\subsection{Resultados de Respuesta Escalón de Velocidad del Ventilador}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{./figures/ventilador_20.png}
+    \caption{Respuesta de la temperatura a un escalón de 20\% de potencia y 3 velocidades de ventilador.}
+\end{figure}
+\FloatBarrier
 
-\subsubsection{Analisis Prueba 1: 100\% de Potencia, Ventilador a 12v, 9,5v y 7v}
+\subsubsection{Resultados}
 
-\subsubsection{Analisis Prueba 2: 80\% de Potencia, Ventilador a 12v, 9,5v y 7v}
+En los ensayos realizados, se concluye que el ventilador a 12V es el más eficiente en todas las condiciones de potencia, proporcionando un enfriamiento rápido y estable, especialmente en potencias altas. Sin embargo, su rendimiento disminuye progresivamente a medida que baja la potencia del sistema. El ventilador a 9.5V muestra un comportamiento aceptable en potencias altas y medias, aunque con mayores fluctuaciones y menor capacidad de enfriamiento, especialmente en potencias bajas. Por otro lado, el ventilador a 7V no es adecuado para mantener el control térmico en ninguna de las pruebas, presentando insuficiente capacidad de enfriamiento y permitiendo oscilaciones importantes en la temperatura. 
 
-\subsubsection{Analisis Prueba 3: 60\% de Potencia, Ventilador a 12v, 9,5v y 7v}
 
-\subsubsection{Analisis Prueba 4: 40\% de Potencia, Ventilador a 12v, 9,5v y 7v}
 
-\subsubsection{Analisis Prueba 5: 20\% de Potencia, Ventilador a 12v, 9,5v y 7v}
-
-\subsubsection{Resultados Finales}
-
-Para aclarar al lector, se presentan los resultados obtenidos en el \ref{tab:resultados2}.
+En la siguiente tabla se presentan los resultados de los ensayos de temperatura con ventilador:
 
 \begin{table}[ht]
     \resizebox{\textwidth}{!}{
     \renewcommand{\arraystretch}{1.5} % Ajusta el alto de las filas
     \setlength{\tabcolsep}{10pt}      % Ajusta el espacio horizontal entre columnas
-    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
         \hline
-        \textbf{Potencia (\%)} & \textbf{Ventilador (V)} & $T_{\text{inicial}}$ (°C) & $T_{\text{final}}$ (°C) & $\Delta T_{\text{final}}$ (°C) & $\tau$ (s) & $t_s$ (s) & $K$ (°C/P\%) & $M_p$ (\%) \\ 
+        \textbf{Potencia (\%)} & \textbf{Ventilador (V)} & $T_{\text{inicial}}$ (°C) & $T_{\text{final}}$ (°C) & $\Delta T_{\text{final}}$ (°C) & $t_s$ (s) & $K$ (°C/P\%) \\ 
         \hline
-        100 & 7   & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        100 & 9.5 & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        100 & 12  & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        80  & 7   & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        80  & 9.5 & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        80  & 12  & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        60  & 7   & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        60  & 9.5 & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        60  & 12  & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        40  & 7   & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        40  & 9.5 & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        40  & 12  & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        20  & 7   & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        20  & 9.5 & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
-        20  & 12  & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\ \hline
+        100 & 7   & 21.83 & 30.28 & 8.45  & 80  & 0.0845  \\ \hline
+        100 & 9.5 & 22.77 & 31.28 & 8.51  & 70  & 0.0851  \\ \hline
+        100 & 12  & 22.77 & 29.01 & 6.24  & 60  & 0.0624  \\ \hline
+        80  & 7   & 22.74 & 31.14 & 8.40  & 75  & 0.1050  \\ \hline
+        80  & 9.5 & 22.59 & 28.33 & 5.74  & 65  & 0.0718  \\ \hline
+        80  & 12  & 22.02 & 25.54 & 3.52  & 60  & 0.0440  \\ \hline
+        60  & 7   & 22.38 & 29.17 & 6.79  & 70  & 0.1132  \\ \hline
+        60  & 9.5 & 22.05 & 26.65 & 4.60  & 60  & 0.0767  \\ \hline
+        60  & 12  & 21.95 & 25.11 & 3.16  & 55  & 0.0527  \\ \hline
+        40  & 7   & 22.15 & 27.66 & 5.51  & 60  & 0.1377  \\ \hline
+        40  & 9.5 & 22.08 & 26.13 & 4.05  & 55  & 0.1012  \\ \hline
+        40  & 12  & 21.82 & 24.48 & 2.66  & 50  & 0.0665  \\ \hline
+        20  & 7   & 21.37 & 24.23 & 2.86  & 55  & 0.1430  \\ \hline
+        20  & 9.5 & 21.82 & 23.84 & 2.02  & 50  & 0.1010  \\ \hline
+        20  & 12  & 21.77 & 23.47 & 1.70  & 45  & 0.0850  \\ \hline
     \end{tabular}
     }
     \caption{Resultados de los ensayos con ventilador a diferentes velocidades y potencias.}
     \label{tab:resultados2}
 \end{table}
+
 \FloatBarrier
- 
+
+En el cuadro 3, hemos incorporado el cálculo de la ganancia estática y el tiempo de estabilización a los resultados del cuadro 3. Esta información es necesaria para comprender cómo la velocidad del ventilador impacta la temperatura alcanzada en el sistema, lo que a su vez ayudará a ajustar los parámetros operativos en tiempo real para futuras tareas.
+
+\newpage
+
+\subsection{Comparación Pruebas Con y Sin Ventilador}
+
+\begin{table}[ht]
+    \resizebox{\textwidth}{!}{
+    \renewcommand{\arraystretch}{1.5} % Ajusta el alto de las filas
+    \setlength{\tabcolsep}{10pt}      % Ajusta el espacio horizontal entre columnas
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        \textbf{Potencia (\%)} & \textbf{Ventilador (V)} & $T_{\text{final}}$ (°C) sin Ventilador & $T_{\text{final}}$ (°C) con Ventilador & $\Delta T_{\text{final}}$ (°C) sin Ventilador & $\Delta T_{\text{final}}$ (°C) con Ventilador \\ 
+        \hline
+        100 & 7   & 37.13 & 30.28 & 13.88   & 8.45    \\ \hline
+        100 & 9.5 & 37.13 & 31.28 & 13.88   & 8.51    \\ \hline
+        100 & 12  & 37.13 & 29.01 & 13.88   & 6.24    \\ \hline
+        80  & 7   & 32.52 & 31.14 & 9.57    & 8.40    \\ \hline
+        80  & 9.5 & 32.52 & 28.33 & 9.57    & 5.74    \\ \hline
+        80  & 12  & 32.52 & 25.54 & 9.57    & 3.52    \\ \hline
+        60  & 7   & 30.01 & 29.17 & 7.13    & 6.79    \\ \hline
+        60  & 9.5 & 30.01 & 26.65 & 7.13    & 4.60    \\ \hline
+        60  & 12  & 30.01 & 25.11 & 7.13    & 3.16    \\ \hline
+        40  & 7   & 27.46 & 27.66 & 5.67    & 5.51    \\ \hline
+        40  & 9.5 & 27.46 & 26.13 & 5.67    & 4.05    \\ \hline
+        40  & 12  & 27.46 & 24.48 & 5.67    & 2.66    \\ \hline
+        20  & 7   & 24.60 & 24.23 & 2.17    & 2.86    \\ \hline
+        20  & 9.5 & 24.60 & 23.84 & 2.17    & 2.02    \\ \hline
+        20  & 12  & 24.60 & 23.47 & 2.17    & 1.70    \\ \hline
+    \end{tabular}
+    }
+    \caption{Resultados de los ensayos con ventilador a diferentes velocidades y potencias.}
+    \label{tab:resultados3}
+\end{table}
+
+\FloatBarrier
+
+Al comparar las pruebas con y sin ventilador, se observa una clara reducción de la temperatura final cuando el ventilador está encendido, independientemente de su velocidad. Esto resalta el efecto significativo del ventilador en la reducción de temperatura.
+
+
+Además podemos notar que el impacto del ventilador es más evidente a potencias altas, donde la reducción de temperatura es más significativa.
+
+Por lo tanto, tenemos que el uso del ventilador mejora la disipación de calor, especialmente a mayores velocidades y potencias, resultando en temperaturas finales más bajas y una menor variación de temperatura, lo cual es esencial para mantener la estabilidad térmica y prevenir el sobrecalentamiento de los componentes.
+
 \newpage
 \section{Modelo Matemático de la Incubadora de Control de Temperatura}  
 
@@ -1134,37 +1080,6 @@ Este diseño e implementación de un controlador PI en Arduino permite gestionar
 
 \subsection{Resultados Control de Temperatura con PID}
 
-
-\section{Actividades y Cronograma}
-
-Se adjuntan las Actividades realizas para el trabajo \cref{fig:gantt}.
-
-\begin{figure}[ht]
-	\centering
-	\begin{ganttchart}[
-			hgrid=true,
-			vgrid=true,
-			canvas/.append style={draw=none},
-			title/.append style={draw=none},
-			title label font=\small,
-			bar label font=\small,
-			y unit title=5mm,
-			y unit chart=6mm,
-			x unit=10mm,
-		]{1}{6}
-		\gantttitle{2015}{2}
-		\gantttitle{2016}{4}\\
-		\gantttitlelist{1,...,6}{1}\\
-		\ganttbar{1.\ Bibliographical research}{1}{1}\\
-		\ganttbar{2.\ Design}{2}{3}\\
-		\ganttbar{3.\ Experiments}{3}{6}
-	\end{ganttchart}
-	\caption{Schedule of activities in trimesters.}
-	\label{fig:gantt}
-\end{figure}
-\FloatBarrier
-
-\section{Conclusion}
 
 %\printbibliography
 
