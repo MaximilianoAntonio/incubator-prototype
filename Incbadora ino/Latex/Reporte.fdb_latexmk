@@ -1,11 +1,11 @@
 # Fdb version 4
-["biber Reporte"] 1729358086.1493 "Reporte.bcf" "Reporte.bbl" "Reporte" 1729358199.16502 0
-  "Reporte.bcf" 1729358198 107521 41a02ed315f9b46ed4d84e99270d969c "pdflatex"
+["biber Reporte"] 1729358086.1493 "Reporte.bcf" "Reporte.bbl" "Reporte" 1729726126.75202 0
+  "Reporte.bcf" 1729726126 107521 41a02ed315f9b46ed4d84e99270d969c "pdflatex"
   (generated)
   "Reporte.bbl"
   "Reporte.blg"
   (rewritten before read)
-["pdflatex"] 1729358193.56494 "c:/Users/Matzi/OneDrive - alumnos.uv.cl/Documentos/Codigos/TIPE incubadora/incubator-prototype/Incbadora ino/Latex/Reporte.tex" "Reporte.pdf" "Reporte" 1729358199.16573 0
+["pdflatex"] 1729726119.38113 "c:/Users/Matzi/OneDrive - alumnos.uv.cl/Documentos/Codigos/TIPE incubadora/incubator-prototype/Incbadora ino/Latex/Reporte.tex" "Reporte.pdf" "Reporte" 1729726126.75295 0
   "C:/Users/Matzi/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1729051398 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/Matzi/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1726538705 11948197 0e174b8c3f842d2283b948a2995c8b68 ""
   "C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc" 1256929440 2375 baa924870cfb487815765f9094cf3728 ""
@@ -320,13 +320,13 @@
   "C:/Users/Matzi/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
   "C:/Users/Matzi/AppData/Local/Programs/MiKTeX/tex/latex/xfor/xfor.sty" 1233849756 2689 44855b72da58344b1c1d9b3087bce6ca ""
   "C:/Users/Matzi/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "Reporte.aux" 1729358198 11560 375e143d89c19321c3d6335f00a97a02 "pdflatex"
+  "Reporte.aux" 1729726126 11560 375e143d89c19321c3d6335f00a97a02 "pdflatex"
   "Reporte.bbl" 1729358088 486 76d65a242ec496c9b4361af646ff12cb "biber Reporte"
-  "Reporte.out" 1729358198 11137 6b3c3b941c8e639e2a3285943cd61e30 "pdflatex"
-  "Reporte.run.xml" 1729358198 2423 207edb71bd233351885316ece20b67ce "pdflatex"
-  "Reporte.tex" 1729358187 41506 95fd9403b5925e72c65e2832a625d46e ""
-  "Reporte.toc" 1729358198 4559 7e3f5aaddf46352cfd1232c3a5585411 "pdflatex"
-  "c:/Users/Matzi/OneDrive - alumnos.uv.cl/Documentos/Codigos/TIPE incubadora/incubator-prototype/Incbadora ino/Latex/Reporte.tex" 1729358187 41506 95fd9403b5925e72c65e2832a625d46e ""
+  "Reporte.out" 1729726126 11137 6b3c3b941c8e639e2a3285943cd61e30 "pdflatex"
+  "Reporte.run.xml" 1729726126 2423 207edb71bd233351885316ece20b67ce "pdflatex"
+  "Reporte.tex" 1729726104 41523 420db67967d69daee9cc48fea6b429de ""
+  "Reporte.toc" 1729726126 4559 7e3f5aaddf46352cfd1232c3a5585411 "pdflatex"
+  "c:/Users/Matzi/OneDrive - alumnos.uv.cl/Documentos/Codigos/TIPE incubadora/incubator-prototype/Incbadora ino/Latex/Reporte.tex" 1729726104 41523 420db67967d69daee9cc48fea6b429de ""
   "figures/Caja.png" 1729041800 64910 da6d80c265cc51d763afe2e9a5ed74df ""
   "figures/Caja_completa.png" 1729041432 65389 2c7a463d011bd27e4e33d117b88d2f14 ""
   "figures/Circuito.png" 1729038312 51081 2e3cc7589b3c1fac3bde273db3ad96e8 ""
