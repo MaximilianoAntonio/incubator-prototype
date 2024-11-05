@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.16)  23 OCT 2024 20:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.16)  29 OCT 2024 00:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1279,7 +1279,7 @@ Package caption Info: End \AtBeginDocument code.
 * \textheight=658.28194pt
 * \oddsidemargin=17.3571pt
 * \evensidemargin=17.3571pt
-* \topmargin=-46.38774pt
+* \topmargin=-91.38774pt
 * \headheight=80.0pt
 * \headsep=25.0pt
 * \topskip=11.0pt
@@ -1307,7 +1307,7 @@ LaTeX Font Info:    Trying to load font information for T1+lmss on input line 15
 (C:\Users\Matzi\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<./figures/logo.png, id=190, 1206.5075pt x 563.10374pt>
+<./figures/logo.png, id=198, 1206.5075pt x 563.10374pt>
 File: ./figures/logo.png Graphic file (type png)
 <use ./figures/logo.png>
 Package pdftex.def Info: ./figures/logo.png  used on input line 157.
@@ -1359,7 +1359,7 @@ Package cleveref Info: loaded `spanish' language definitions on input line 1.
 [3]
 
 [4]
-<./figures/Tapa.png, id=275, 995.97093pt x 697.8572pt>
+<./figures/Tapa.png, id=285, 995.97093pt x 697.8572pt>
 File: ./figures/Tapa.png Graphic file (type png)
 <use ./figures/Tapa.png>
 Package pdftex.def Info: ./figures/Tapa.png  used on input line 224.
@@ -1367,12 +1367,12 @@ Package pdftex.def Info: ./figures/Tapa.png  used on input line 224.
 
 
 [5{C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc} <./figures/Tapa.png>]
-<./figures/Caja.png, id=284, 995.97093pt x 701.62125pt>
+<./figures/Caja.png, id=294, 995.97093pt x 701.62125pt>
 File: ./figures/Caja.png Graphic file (type png)
 <use ./figures/Caja.png>
 Package pdftex.def Info: ./figures/Caja.png  used on input line 234.
 (pdftex.def)             Requested size: 292.77629pt x 206.24847pt.
-<./figures/Caja_completa.png, id=285, 988.44281pt x 709.14937pt>
+<./figures/Caja_completa.png, id=295, 988.44281pt x 709.14937pt>
 File: ./figures/Caja_completa.png Graphic file (type png)
 <use ./figures/Caja_completa.png>
 Package pdftex.def Info: ./figures/Caja_completa.png  used on input line 243.
@@ -1382,23 +1382,25 @@ Package pdftex.def Info: ./figures/Caja_completa.png  used on input line 243.
 [6 <./figures/Caja.png> <./figures/Caja_completa.png>]
 
 [7{C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}]
-<./figures/Circuito.png, id=304, 1126.2075pt x 736.7525pt>
+<./figures/Circuito.png, id=314, 1126.2075pt x 736.7525pt>
 File: ./figures/Circuito.png Graphic file (type png)
 <use ./figures/Circuito.png>
 Package pdftex.def Info: ./figures/Circuito.png  used on input line 323.
-(pdftex.def)             Requested size: 292.77629pt x 191.52864pt.
-<./figures/PCB.png, id=305, 1166.3575pt x 830.10126pt>
+(pdftex.def)             Requested size: 376.42575pt x 246.25433pt.
+
+
+[8 <./figures/Circuito.png>]
+<./figures/PCB.png, id=320, 1166.3575pt x 830.10126pt>
 File: ./figures/PCB.png Graphic file (type png)
 <use ./figures/PCB.png>
-Package pdftex.def Info: ./figures/PCB.png  used on input line 332.
-(pdftex.def)             Requested size: 250.95476pt x 178.59496pt.
-
-
-[8 <./figures/Circuito.png> <./figures/PCB.png (PNG copy)>]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 346.
+Package pdftex.def Info: ./figures/PCB.png  used on input line 334.
+(pdftex.def)             Requested size: 376.42575pt x 267.9051pt.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 348.
  (C:\Users\Matzi\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) (C:\Users\Matzi\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+)
+
+[9 <./figures/PCB.png (PNG copy)>] (C:\Users\Matzi\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2024/05/25 1.10b listings language file
 ) (C:\Users\Matzi\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2024/05/25 1.10b listings language file
@@ -1406,109 +1408,107 @@ File: lstlang1.sty 2024/05/25 1.10b listings language file
 File: lstmisc.sty 2024/05/25 1.10b (Carsten Heinz)
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 357.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 359.
 
 
-[9]
+[10]
 
-[10] (C:\Users\Matzi\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+[11] (C:\Users\Matzi\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2024/05/25 1.10b listings language file
 )
 
-[11]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 479.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 479.
-
-
 [12]
-<./figures/Interfaz.png, id=450, 1227.83719pt x 756.57657pt>
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 481.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 481.
+<./figures/Interfaz.png, id=443, 1227.83719pt x 756.57657pt>
 File: ./figures/Interfaz.png Graphic file (type png)
 <use ./figures/Interfaz.png>
-Package pdftex.def Info: ./figures/Interfaz.png  used on input line 511.
+Package pdftex.def Info: ./figures/Interfaz.png  used on input line 513.
 (pdftex.def)             Requested size: 334.60422pt x 206.17168pt.
 
 
-[13 <./figures/Interfaz.png>]
-<./figures/prueba1.png, id=464, 1438.173pt x 426.393pt>
+[13]
+<./figures/prueba1.png, id=472, 1438.173pt x 426.393pt>
 File: ./figures/prueba1.png Graphic file (type png)
 <use ./figures/prueba1.png>
-Package pdftex.def Info: ./figures/prueba1.png  used on input line 529.
+Package pdftex.def Info: ./figures/prueba1.png  used on input line 530.
 (pdftex.def)             Requested size: 376.42575pt x 111.60127pt.
-<./figures/prueba2.png, id=465, 1438.173pt x 426.393pt>
+
+
+[14 <./figures/Interfaz.png> <./figures/prueba1.png>]
+<./figures/prueba2.png, id=481, 1438.173pt x 426.393pt>
 File: ./figures/prueba2.png Graphic file (type png)
 <use ./figures/prueba2.png>
-Package pdftex.def Info: ./figures/prueba2.png  used on input line 538.
+Package pdftex.def Info: ./figures/prueba2.png  used on input line 541.
 (pdftex.def)             Requested size: 376.42575pt x 111.60127pt.
-<./figures/prueba3.png, id=466, 1438.173pt x 426.393pt>
+<./figures/prueba3.png, id=482, 1438.173pt x 426.393pt>
 File: ./figures/prueba3.png Graphic file (type png)
 <use ./figures/prueba3.png>
-Package pdftex.def Info: ./figures/prueba3.png  used on input line 547.
+Package pdftex.def Info: ./figures/prueba3.png  used on input line 550.
 (pdftex.def)             Requested size: 376.42575pt x 111.60127pt.
-
-
-[14 <./figures/prueba1.png> <./figures/prueba2.png> <./figures/prueba3.png>]
-<./figures/prueba4.png, id=477, 1438.173pt x 426.393pt>
+<./figures/prueba4.png, id=483, 1438.173pt x 426.393pt>
 File: ./figures/prueba4.png Graphic file (type png)
 <use ./figures/prueba4.png>
-Package pdftex.def Info: ./figures/prueba4.png  used on input line 557.
+Package pdftex.def Info: ./figures/prueba4.png  used on input line 559.
 (pdftex.def)             Requested size: 376.42575pt x 111.60127pt.
-<./figures/prueba5.png, id=478, 1438.173pt x 426.393pt>
+
+
+[15 <./figures/prueba2.png> <./figures/prueba3.png> <./figures/prueba4.png>]
+<./figures/prueba5.png, id=494, 1438.173pt x 426.393pt>
 File: ./figures/prueba5.png Graphic file (type png)
 <use ./figures/prueba5.png>
-Package pdftex.def Info: ./figures/prueba5.png  used on input line 566.
+Package pdftex.def Info: ./figures/prueba5.png  used on input line 569.
 (pdftex.def)             Requested size: 376.42575pt x 111.60127pt.
 
 
-[15 <./figures/prueba4.png> <./figures/prueba5.png>]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 629.
+[16 <./figures/prueba5.png>]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 632.
  (C:\Users\Matzi\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-
-[16{C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}]
-<./figures/ventilador_100.png, id=498, 1438.173pt x 426.393pt>
+<./figures/ventilador_100.png, id=506, 1438.173pt x 426.393pt>
 File: ./figures/ventilador_100.png Graphic file (type png)
 <use ./figures/ventilador_100.png>
-Package pdftex.def Info: ./figures/ventilador_100.png  used on input line 647.
-(pdftex.def)             Requested size: 376.42575pt x 111.60127pt.
-<./figures/ventilador_80.png, id=499, 1438.173pt x 426.393pt>
+Package pdftex.def Info: ./figures/ventilador_100.png  used on input line 648.
+(pdftex.def)             Requested size: 334.60422pt x 99.20041pt.
+<./figures/ventilador_80.png, id=507, 1438.173pt x 426.393pt>
 File: ./figures/ventilador_80.png Graphic file (type png)
 <use ./figures/ventilador_80.png>
-Package pdftex.def Info: ./figures/ventilador_80.png  used on input line 656.
-(pdftex.def)             Requested size: 376.42575pt x 111.60127pt.
-<./figures/ventilador_60.png, id=500, 1438.173pt x 426.393pt>
+Package pdftex.def Info: ./figures/ventilador_80.png  used on input line 657.
+(pdftex.def)             Requested size: 334.60422pt x 99.20041pt.
+<./figures/ventilador_60.png, id=508, 1438.173pt x 426.393pt>
 File: ./figures/ventilador_60.png Graphic file (type png)
 <use ./figures/ventilador_60.png>
-Package pdftex.def Info: ./figures/ventilador_60.png  used on input line 665.
+Package pdftex.def Info: ./figures/ventilador_60.png  used on input line 666.
 (pdftex.def)             Requested size: 376.42575pt x 111.60127pt.
 
 
-[17 <./figures/ventilador_100.png> <./figures/ventilador_80.png> <./figures/ventilador_60.png>]
-<./figures/ventilador_40.png, id=511, 1438.173pt x 426.393pt>
+[17{C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc} <./figures/ventilador_100.png> <./figures/ventilador_80.png>]
+<./figures/ventilador_40.png, id=519, 1438.173pt x 426.393pt>
 File: ./figures/ventilador_40.png Graphic file (type png)
 <use ./figures/ventilador_40.png>
 Package pdftex.def Info: ./figures/ventilador_40.png  used on input line 675.
 (pdftex.def)             Requested size: 376.42575pt x 111.60127pt.
-<./figures/ventilador_20.png, id=512, 1438.173pt x 426.393pt>
+<./figures/ventilador_20.png, id=520, 1438.173pt x 426.393pt>
 File: ./figures/ventilador_20.png Graphic file (type png)
 <use ./figures/ventilador_20.png>
 Package pdftex.def Info: ./figures/ventilador_20.png  used on input line 684.
 (pdftex.def)             Requested size: 376.42575pt x 111.60127pt.
 
 
-[18 <./figures/ventilador_40.png> <./figures/ventilador_20.png>]
+[18 <./figures/ventilador_60.png> <./figures/ventilador_40.png> <./figures/ventilador_20.png>]
 
 [19]
 
 [20]
 
 [21{C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}]
-<./figures/DiagramaBloques.png, id=544, 588.69937pt x 118.19156pt>
+<./figures/DiagramaBloques.png, id=554, 588.69937pt x 118.19156pt>
 File: ./figures/DiagramaBloques.png Graphic file (type png)
 <use ./figures/DiagramaBloques.png>
-Package pdftex.def Info: ./figures/DiagramaBloques.png  used on input line 839.
+Package pdftex.def Info: ./figures/DiagramaBloques.png  used on input line 837.
 (pdftex.def)             Requested size: 418.25368pt x 83.97249pt.
 
 
@@ -1517,10 +1517,10 @@ Package pdftex.def Info: ./figures/DiagramaBloques.png  used on input line 839.
 [23]
 
 [24]
-<figures/Simulación de la Respuesta.png, id=605, 722.7pt x 510.9489pt>
+<figures/Simulación de la Respuesta.png, id=615, 722.7pt x 510.9489pt>
 File: figures/Simulación de la Respuesta.png Graphic file (type png)
 <use figures/Simulación de la Respuesta.png>
-Package pdftex.def Info: figures/Simulación de la Respuesta.png  used on input line 984.
+Package pdftex.def Info: figures/Simulación de la Respuesta.png  used on input line 982.
 (pdftex.def)             Requested size: 418.25368pt x 295.70346pt.
 
 
@@ -1529,8 +1529,32 @@ Package pdftex.def Info: figures/Simulación de la Respuesta.png  used on input 
 [26]
 
 [27]
+<figures/Simulacion_PID.png, id=693, 859.2903pt x 426.393pt>
+File: figures/Simulacion_PID.png Graphic file (type png)
+<use figures/Simulacion_PID.png>
+Package pdftex.def Info: figures/Simulacion_PID.png  used on input line 1093.
+(pdftex.def)             Requested size: 418.25368pt x 207.54205pt.
 
-[28] (Reporte.aux
+
+[28 <./figures/Simulacion_PID.png>]
+
+[29]
+<figures/PID30.png, id=762, 1293.633pt x 281.853pt>
+File: figures/PID30.png Graphic file (type png)
+<use figures/PID30.png>
+Package pdftex.def Info: figures/PID30.png  used on input line 1186.
+(pdftex.def)             Requested size: 418.25368pt x 91.12805pt.
+
+
+[30 <./figures/PID30.png>]
+<figures/PID25.png, id=776, 1293.633pt x 281.853pt>
+File: figures/PID25.png Graphic file (type png)
+<use figures/PID25.png>
+Package pdftex.def Info: figures/PID25.png  used on input line 1204.
+(pdftex.def)             Requested size: 418.25368pt x 91.12805pt.
+
+
+[31 <./figures/PID25.png>] (Reporte.aux
 LaTeX Info: Redefining \sptext on input line 15.
 LaTeX Info: Redefining \. on input line 15.
 LaTeX Info: Redefining \% on input line 15.
@@ -1541,23 +1565,23 @@ LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-30>
  ***********
 Package rerunfilecheck Info: File `Reporte.out' has not changed.
-(rerunfilecheck)             Checksum: 6B3C3B941C8E639E2A3285943CD61E30;11137.
+(rerunfilecheck)             Checksum: AF74936E709BA07E0F5B95D4D1D78299;11584.
 Package logreq Info: Writing requests to 'Reporte.run.xml'.
 \openout1 = `Reporte.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 50874 strings out of 473899
- 1046782 string characters out of 5726500
- 2075873 words of memory out of 5000000
- 72618 multiletter control sequences out of 15000+600000
+ 51004 strings out of 473899
+ 1048861 string characters out of 5726500
+ 2075887 words of memory out of 5000000
+ 72676 multiletter control sequences out of 15000+600000
  637797 words of font info for 91 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  94i,17n,117p,2474b,3092s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx8.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb><C:/Users/Matzi/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtti10.pfb>
-Output written on Reporte.pdf (28 pages, 2888974 bytes).
+Output written on Reporte.pdf (31 pages, 3160056 bytes).
 PDF statistics:
- 846 PDF objects out of 1000 (max. 8388607)
- 352 named destinations out of 1000 (max. 500000)
- 476 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 956 PDF objects out of 1000 (max. 8388607)
+ 424 named destinations out of 1000 (max. 500000)
+ 507 words of extra memory for PDF output out of 10000 (max. 10000000)
 

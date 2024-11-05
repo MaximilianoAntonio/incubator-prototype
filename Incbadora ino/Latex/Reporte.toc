@@ -10,26 +10,26 @@
 \contentsline {subsection}{\numberline {3.3}Diseño del Circuito}{7}{subsection.3.3}%
 \contentsline {subsubsection}{\numberline {3.3.1}Calculo de componentes a usar}{7}{subsubsection.3.3.1}%
 \contentsline {subsubsection}{\numberline {3.3.2}Esquemático}{8}{subsubsection.3.3.2}%
-\contentsline {subsubsection}{\numberline {3.3.3}Circuito Impreso}{8}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.3}Circuito Impreso}{9}{subsubsection.3.3.3}%
 \contentsline {section}{\numberline {4}Código para el control de la incubadora}{9}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Código Arduino}{9}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Código Python}{11}{subsection.4.2}%
-\contentsline {section}{\numberline {5}Ensayos y Resultados}{13}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Ensayos de Control de Temperatura con Calefactor}{13}{subsection.5.1}%
+\contentsline {subsection}{\numberline {4.2}Código Python}{12}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Ensayos y Resultados}{14}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Ensayos de Control de Temperatura con Calefactor}{14}{subsection.5.1}%
 \contentsline {subsubsection}{\numberline {5.1.1}Prueba 1: 100\% de potencia}{14}{subsubsection.5.1.1}%
-\contentsline {subsubsection}{\numberline {5.1.2}Prueba 2: 80\% de potencia}{14}{subsubsection.5.1.2}%
-\contentsline {subsubsection}{\numberline {5.1.3}Prueba 3: 60\% de potencia}{14}{subsubsection.5.1.3}%
+\contentsline {subsubsection}{\numberline {5.1.2}Prueba 2: 80\% de potencia}{15}{subsubsection.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.3}Prueba 3: 60\% de potencia}{15}{subsubsection.5.1.3}%
 \contentsline {subsubsection}{\numberline {5.1.4}Prueba 4: 40\% de potencia}{15}{subsubsection.5.1.4}%
-\contentsline {subsubsection}{\numberline {5.1.5}Prueba 5: 20\% de potencia}{15}{subsubsection.5.1.5}%
-\contentsline {subsubsection}{\numberline {5.1.6}Resultados}{15}{subsubsection.5.1.6}%
-\contentsline {subsection}{\numberline {5.2}Ensayos de Temperatura con Distintas Velocidades del Ventilador}{16}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.1.5}Prueba 5: 20\% de potencia}{16}{subsubsection.5.1.5}%
+\contentsline {subsubsection}{\numberline {5.1.6}Resultados}{16}{subsubsection.5.1.6}%
+\contentsline {subsection}{\numberline {5.2}Ensayos de Temperatura con Distintas Velocidades del Ventilador}{17}{subsection.5.2}%
 \contentsline {subsubsection}{\numberline {5.2.1}Prueba 1: 100\% de Potencia, Ventilador a 12v, 9,5v y 7v}{17}{subsubsection.5.2.1}%
 \contentsline {subsubsection}{\numberline {5.2.2}Prueba 2: 80\% de Potencia, Ventilador a 12v, 9,5v y 7v}{17}{subsubsection.5.2.2}%
-\contentsline {subsubsection}{\numberline {5.2.3}Prueba 3: 60\% de Potencia, Ventilador a 12v, 9,5v y 7v}{17}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.3}Prueba 3: 60\% de Potencia, Ventilador a 12v, 9,5v y 7v}{18}{subsubsection.5.2.3}%
 \contentsline {subsubsection}{\numberline {5.2.4}Prueba 4: 40\% de Potencia, Ventilador a 12v, 9,5v y 7v}{18}{subsubsection.5.2.4}%
 \contentsline {subsubsection}{\numberline {5.2.5}Prueba 5: 20\% de Potencia, Ventilador a 12v, 9,5v y 7v}{18}{subsubsection.5.2.5}%
-\contentsline {subsubsection}{\numberline {5.2.6}Resultados}{18}{subsubsection.5.2.6}%
-\contentsline {subsection}{\numberline {5.3}Comparación Pruebas Con y Sin Ventilador}{20}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.2.6}Resultados}{19}{subsubsection.5.2.6}%
+\contentsline {subsection}{\numberline {5.3}Comparación Pruebas Con y Sin Ventilador}{19}{subsection.5.3}%
 \contentsline {section}{\numberline {6}Modelo Matemático de la Incubadora de Control de Temperatura}{21}{section.6}%
 \contentsline {subsection}{\numberline {6.1}Función de Transferencia}{21}{subsection.6.1}%
 \contentsline {subsection}{\numberline {6.2}Ecuación Diferencial en el Dominio del Tiempo}{21}{subsection.6.2}%
@@ -43,5 +43,7 @@
 \contentsline {subsection}{\numberline {7.5}Explicación del Código}{25}{subsection.7.5}%
 \contentsline {section}{\numberline {8}Algoritmo de Control PID en Arduino}{26}{section.8}%
 \contentsline {subsection}{\numberline {8.1}Cálculo de los Parámetros del PID}{26}{subsection.8.1}%
-\contentsline {subsection}{\numberline {8.2}Implementación en Arduino}{26}{subsection.8.2}%
-\contentsline {subsection}{\numberline {8.3}Resultados Control de Temperatura con PID}{28}{subsection.8.3}%
+\contentsline {subsubsection}{\numberline {8.1.1}Simulacion de los valores PID}{26}{subsubsection.8.1.1}%
+\contentsline {subsection}{\numberline {8.2}Implementación en Arduino}{28}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Resultados Control de Temperatura con PID}{30}{subsection.8.3}%
+\contentsline {subsubsection}{\numberline {8.3.1}Resultados reales}{30}{subsubsection.8.3.1}%

@@ -62,7 +62,7 @@
 
 \usepackage{fancyhdr}
 \setlength{\headheight}{80pt} % Ajustar a un valor más bajo si es posible
-\addtolength{\topmargin}{-5pt} % Menos negativo si la cabecera ocupa mucho espacio
+\addtolength{\topmargin}{-50pt} % Menos negativo si la cabecera ocupa mucho espacio
 \fancypagestyle{unicamp}{
     \renewcommand{\headrulewidth}{0.4pt} 
     \renewcommand{\footrulewidth}{0pt}   
@@ -70,7 +70,7 @@
     \fancyhead{}
     \fancyfoot{}
     
-
+    \addtolength{\topmargin}{50pt}
     \fancyhead[L]{%
         \sffamily % Fuente sans-serif
         \begin{minipage}{0.3\textwidth}
@@ -166,7 +166,7 @@
 
 Se desarrollará un prototipo de incubadora neonatal que utiliza una ampolleta de 12V como fuente de calor, un ventilador para la circulación de aire, y un sensor NTC para medir la temperatura. 
 
-La finalidad del prototipo y controlar de manera precisa la temperatura interna, creando un ambiente adecuado para un neonato. Para lograr esto, se implementará un sistema de control basado en Arduino que permite regular la temperatura de forma automática y eficiente. Además, se registrará la evolución de los parámetros obtenidos en diferentes escenarios, lo cual contribuye al análisis y mejora continua del prototipo.\par
+La finalidad del prototipo es controlar de manera precisa la temperatura interna, creando un ambiente adecuado para un neonato. Para lograr esto, se implementará un sistema de control basado en Arduino que permitirá regular la temperatura de forma automática y eficiente. Además, se registrará la evolución de los parámetros obtenidos en diferentes escenarios, lo cual contribuye al análisis y mejora continua del prototipo.\par
 
 \section{Objetivos}
 
@@ -320,16 +320,18 @@ R_b = 5650 \, \Omega
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.7\textwidth]{./figures/Circuito.png}
+    \includegraphics[width=0.9\textwidth]{./figures/Circuito.png}
     \caption{Diseño del circuito de control de la incubadora.}
 \end{figure}
 \FloatBarrier
+
+\newpage
 
 \subsubsection{Circuito Impreso}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.6\textwidth]{./figures/PCB.png}
+    \includegraphics[width=0.9\textwidth]{./figures/PCB.png}
     \caption{Diseño del circuito impreso de control de la incubadora.}
 \end{figure}
 \FloatBarrier
@@ -521,7 +523,6 @@ Estos gráficos permiten al usuario monitorear el desempeño de la incubadora de
 
 Para realizar los ensayos se realizaron 5 pruebas de respuesta tipo escalon, variando la potencia de la ampolleta de 0 a 100\% en incrementos de 20\%. Los resultados obtenidos se muestran a continuación.
 
-\newpage
 \subsubsection{Prueba 1: 100\% de potencia}
 
 \begin{figure}[ht]
@@ -530,6 +531,8 @@ Para realizar los ensayos se realizaron 5 pruebas de respuesta tipo escalon, var
     \caption{Respuesta de la temperatura a un escalón de 100\% de potencia.}
 \end{figure}
 \FloatBarrier
+
+\newpage
 
 \subsubsection{Prueba 2: 80\% de potencia}
 
@@ -549,7 +552,6 @@ Para realizar los ensayos se realizaron 5 pruebas de respuesta tipo escalon, var
 \end{figure}
 \FloatBarrier
 
-\newpage
 \subsubsection{Prueba 4: 40\% de potencia}
 
 \begin{figure}[ht]
@@ -559,6 +561,7 @@ Para realizar los ensayos se realizaron 5 pruebas de respuesta tipo escalon, var
 \end{figure}
 \FloatBarrier
 
+\newpage
 \subsubsection{Prueba 5: 20\% de potencia}
 
 \begin{figure}[ht]
@@ -577,9 +580,7 @@ Las pruebas de respuesta a escalón permiten evaluar la capacidad de control del
 
 Para realizar el análisis de los resultados, se calcula el tiempo de asentamiento \( t_s \), la diferencia de temperatura, la temperatura maxima para cada ensayo y la potencia de radiación.
 
-\newpage
-
-\section*{Fórmulas para el Analisis de la Respuesta a Escalón}
+\subsubsection*{Calculo de la pontencia de radiación}
 
 \subsubsection*{Cambio en la Temperatura Final (\( \Delta T_{\text{final}} \)):}
 \[
@@ -611,19 +612,21 @@ Se presentan los resultados obtenidos en la siguiente tabla:
 
 \begin{table}[ht]
     \resizebox{\textwidth}{!}{
+    \renewcommand{\arraystretch}{1.5} % Ajusta el alto de las filas
+    \setlength{\tabcolsep}{10pt}      % Ajusta el espacio horizontal entre columnas
     \begin{tabular}{|c|c|c|c|c|c|c|}
     \hline
-    \textbf{Ensayo} & \textbf{Potencia (\%)} & \textbf{Temp. Inicial (°C)} & \textbf{Temp. Final (°C)} & \textbf{Cambio en Temp. (°C)} & \textbf{Potencia de Radiación (W)} \\ 
+    \textbf{Ensayo} & \textbf{Potencia (\%)} & \textbf{Temp. Inicial (°C)} & \textbf{Temp. Final (°C)} & \textbf{Cambio en Temp. (°C)} & \textbf{Potencia de Radiación (W)} & \textbf{Ganancia estática (K)}\\ 
     \hline
-    1 & 100 & 23.25 & 37.13 & 13.88 & 18.6 \\ 
+    1 & 100 & 23.25 & 37.13 & 13.88 & 18.6 & 0.1389\\ 
     \hline
-    2 & 80 & 22.95 & 32.52 & 9.57 & 14.9 \\ 
+    2 & 80 & 22.95 & 32.52 & 9.57 & 14.9 & 0.1195 \\ 
     \hline
-    3 & 60 & 22.88 & 30.01 & 7.13 & 11.2 \\ 
+    3 & 60 & 22.88 & 30.01 & 7.13 & 11.2 & 0.1188 \\ 
     \hline
-    4 & 40 & 21.79 & 27.46 & 5.67 & 7.4 \\ 
+    4 & 40 & 21.79 & 27.46 & 5.67 & 7.4 & 0.1417 \\ 
     \hline
-    5 & 20 & 22.43 & 24.60 & 2.17 & 3.7 \\ 
+    5 & 20 & 22.43 & 24.60 & 2.17 & 3.7 & 0.1085 \\ 
     \hline
     \end{tabular}
     }
@@ -638,13 +641,11 @@ Se presentan los resultados obtenidos en la siguiente tabla:
 
 Para realizar los ensayos se realizaron 5 pruebas de respuesta tipo escalon, variando la velocidad del ventilador. Los resultados obtenidos se muestran a continuación.
 
-\pagebreak
-
 \subsubsection{Prueba 1: 100\% de Potencia, Ventilador a 12v, 9,5v y 7v}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.9\textwidth]{./figures/ventilador_100.png}
+    \includegraphics[width=0.8\textwidth]{./figures/ventilador_100.png}
     \caption{Respuesta de la temperatura a un escalón de 100\% de potencia y 3 velocidades de ventilador.}
 \end{figure}
 \FloatBarrier
@@ -653,7 +654,7 @@ Para realizar los ensayos se realizaron 5 pruebas de respuesta tipo escalon, var
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.9\textwidth]{./figures/ventilador_80.png}
+    \includegraphics[width=0.8\textwidth]{./figures/ventilador_80.png}
     \caption{Respuesta de la temperatura a un escalón de 80\% de potencia y 3 velocidades de ventilador.}
 \end{figure}
 \FloatBarrier
@@ -666,7 +667,6 @@ Para realizar los ensayos se realizaron 5 pruebas de respuesta tipo escalon, var
     \caption{Respuesta de la temperatura a un escalón de 60\% de potencia y 3 velocidades de ventilador.}
 \end{figure}
 \FloatBarrier
-\pagebreak
 
 \subsubsection{Prueba 4: 40\% de Potencia, Ventilador a 12v, 9,5v y 7v}
 
@@ -726,8 +726,6 @@ En la siguiente tabla se presentan los resultados de los ensayos de temperatura 
 \FloatBarrier
 
 En el cuadro 3, hemos incorporado el cálculo de la ganancia estática y el tiempo de estabilización a los resultados del cuadro 3. Esta información es necesaria para comprender cómo la velocidad del ventilador impacta la temperatura alcanzada en el sistema, lo que a su vez ayudará a ajustar los parámetros operativos en tiempo real para futuras tareas.
-
-\newpage
 
 \subsection{Comparación Pruebas Con y Sin Ventilador}
 
@@ -1009,6 +1007,94 @@ Selección de los Valores:
 
 Estos valores fueron determinados empíricamente mediante prueba y error usando el metodo \textbf{Ziegler-Nichols}, ajustando los parámetros hasta lograr una respuesta rápida sin oscilaciones significativas.
 
+\subsubsection{Simulacion de los valores PID}
+
+\begin{lstlisting}[language=Python]
+    # Parametros del sistema
+K = 0.1268  # Ganancia estatica (C/P%)
+tau = 243.54  # Constante de tiempo (s)
+
+# Parametros del controlador PID
+Kp = 30.0
+Ki = 1.0
+Kd = 0.0
+
+# Configuracion de la simulacion
+dt = 1.0  # Paso de tiempo (s)
+t_final = 2000  # Tiempo total de simulacion (s)
+n_steps = int(t_final / dt)
+t = np.linspace(0, t_final, n_steps)
+
+# Variables de estado
+T = np.zeros(n_steps)  # Temperatura del sistema
+P = np.zeros(n_steps)  # Potencia aplicada (%)
+
+# Variables del controlador
+e_prev = 0.0  # Error previo
+integral = 0.0  # Integral del error
+
+# Setpoint
+T_setpoint = 30.0  # Temperatura deseada (C)
+
+# Temperatura ambiente inicial
+T_ambiente = 22.0  # (C)
+T[0] = T_ambiente
+
+for i in range(1, n_steps):
+    # Calculo del error
+    e = T_setpoint - T[i-1]
+    
+    # Integral del error
+    integral += e * dt
+    
+    # Derivada del error
+    derivative = (e - e_prev) / dt
+    
+    # Control PID
+    u = Kp * e + Ki * integral + Kd * derivative
+    
+    # Saturacion del control
+    if u > 100.0:  # Potencia maxima
+        u = 100.0
+    elif u < 0.0:
+        u = 0.0
+    
+    P[i] = u  # Potencia aplicada en %
+    
+    # Actualizacion del sistema (modelo de primer orden)
+    dT = (-(T[i-1] - T_ambiente) + K * P[i]) * (dt / tau)
+    T[i] = T[i-1] + dT
+    
+    # Actualizacion del error previo
+    e_prev = e
+
+# Graficas de los resultados
+
+//////////////////////
+# Graficas de los resultados
+//////////////////////
+
+\end{lstlisting}
+
+Para llegar a los valores de los parámetros del controlador PID, se utilizó el método de Ziegler-Nichols, que consiste en aumentar el valor de \(K_p\) hasta que el sistema comience a oscilar, y luego ajustar \(K_i\) y \(K_d\) para obtener una respuesta rápida y estable. Los valores finales se ajustaron para minimizar el error en estado estacionario y evitar oscilaciones excesivas.
+
+Se hizo de manera iterativa, probando diferentes combinaciones de parámetros hasta encontrar los valores óptimos para el sistema de control de temperatura dentro de la simulacion por Python simulando el sistema.
+
+Donde se llegó a la mejor configuracion que es la siguiente:
+
+\begin{itemize}
+    \item \(K_p = 30.0\)
+    \item \(K_i = 1.0\)
+    \item \(K_d = 0.0\)
+\end{itemize}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\textwidth]{Simulacion_PID.png}
+    \caption{Simulación de la Respuesta de Temperatura con Control PID}
+\end{figure}
+\FloatBarrier
+
 \subsection{Implementación en Arduino}
 
 \begin{lstlisting}[language=C++]
@@ -1080,7 +1166,48 @@ Este diseño e implementación de un controlador PI en Arduino permite gestionar
 
 \subsection{Resultados Control de Temperatura con PID}
 
+El controlador PID implementado en Arduino permite mantener la temperatura del ambiente cerca del valor deseado, ajustando la potencia de la luz en función de las mediciones de temperatura. La respuesta es rápida y estable, con una pequeña oscilación inicial que se corrige rápidamente. El controlador mantiene la temperatura en el rango deseado y minimiza el error en estado estacionario.
 
-%\printbibliography
+\subsubsection{Resultados reales}
+
+Se ajustó como la temperatura deseada en 30°C y se obtuvieron los siguientes resultados:
+
+
+Sobrepaso: 0.91 °C
+
+Error máximo porcentual: 3.03 \%
+
+Tiempo de estabilización: 400 segundos
+
+Temperatura media despues de estabilización: 29.996°C
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\textwidth]{PID30.png}
+    \caption{Control de Temperatura con PID en Arduino buscando estar en 30°C}
+\end{figure}
+\FloatBarrier
+
+Se ajustó como la temperatura deseada en 25°C y se obtuvieron los siguientes resultados:
+
+
+Sobrepaso: 1.75 °C
+
+Error máximo porcentual: 7.00 \%
+
+Tiempo de estabilización: 400 segundos
+
+Temperatura media despues de estabilización: 24.996°C
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\textwidth]{PID25.png}
+    \caption{Control de Temperatura con PID en Arduino buscando estar en 25°C}
+\end{figure}
+\FloatBarrier
+
+Se puede ver las diferencias en la respuesta del sistema al cambiar la temperatura deseada, en el primer caso se logra mantener la temperatura en 30°C con una oscilación mínima, mientras que en el segundo caso la temperatura se mantiene en 25°C con una respuesta similar.
+Ambos lograron llegar a la respuesta deseada despues de 400 segundos o 6.6 minutos aproximadamente.
+
 
 \end{document}
