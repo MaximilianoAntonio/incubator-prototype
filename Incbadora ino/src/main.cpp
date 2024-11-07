@@ -73,7 +73,7 @@ void setup() {
 }
 
 void loop() {
-  // Medición de temperatura cada 250 ms
+  // Medición de temperatura cada 250 ms 
   if (millis() - tiempoAnteriorTemp >= 250) {
     lecturaNTC = analogRead(NTC_PIN);
     resistenciaNTC = 100000.0 * ((1023.0 / lecturaNTC) - 1.0);
@@ -86,7 +86,7 @@ void loop() {
 
     if (control_automatico) {
       Input = calcularPromedio(ultimasTemp, 5);
-      myPID.Compute();
+      myPID.Compute(); // Cálculo de la salida del PI control
       analogWrite(LUZ_PIN, map(Output, 0, 100, 0, 255));
     }
 
@@ -107,8 +107,6 @@ void loop() {
       velocidadRPM = (pulsos /2.0 ) * (60000.0 / tiempoTranscurrido);
     }
 
-    //ultimasRPM[indiceRPM] = velocidadRPM;
-    //indiceRPM = (indiceRPM + 1) % 1;
     ultimasRPM = velocidadRPM;
 
     ultimoTiempoRPM = tiempoActual;
@@ -117,6 +115,7 @@ void loop() {
 
   // Impresión de datos cada 300 ms
   if (millis() - tiempoImprimir >= 300) {
+    
     Serial.print(calcularPromedio(ultimasTemp, 5));
     Serial.print(";");
     Serial.print(ultimasRPM);
