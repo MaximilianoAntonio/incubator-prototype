@@ -13,7 +13,7 @@ class Plataforma(QMainWindow):
         uic.loadUi("Plataforma.ui", self)
         
         # Configurar conexión serial
-        self.serial_port = serial.Serial('COM18', 115200, timeout=1)
+        self.serial_port = serial.Serial('COM3', 115200, timeout=1)
 
         # Variables para registro de datos
         self.datos = []
