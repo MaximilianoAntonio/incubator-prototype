@@ -2,10 +2,13 @@
 #include <PID_v1.h>
 
 // Definición de pines
-#define NTC_PIN A0 // Pin NTC
-#define LUZ_PIN 11 // Pin Luz
-#define VENT_PIN 9 // Pin Ventilador
-#define VEL_PIN 3 // Pin Velocidad Tacómetro
+#define NTC_PIN A0  // Pin NTC
+#define LUZ_PIN 11  // Pin Luz
+#define VENT_PIN 9  // Pin Ventilador
+#define VEL_PIN 3   // Pin Velocidad Tacómetro
+#define LED_VERDE_PIN 7  // Pin LED verde
+#define LED_AMARILLO_PIN 6 // Pin LED amarillo
+#define LED_ROJO_PIN 4    // Pin LED rojo
 
 // Constantes para el cálculo de la temperatura
 #define A_COEFF 0.5458630405e-3
@@ -17,14 +20,14 @@ float resistenciaNTC, logResistencia, tempKelvin, tempCelsius;
 int lecturaNTC, potenciaVentilador, potenciaLuz;
 volatile int contadorImpulsos = 0;
 volatile float velocidadRPM = 0;
-unsigned long tiempoAnteriorTemp, tiempoAnteriorVel, tiempoImprimir, ultimoTiempoRPM;
+unsigned long tiempoAnteriorTemp, tiempoAnteriorVel, tiempoImprimir, ultimoTiempoRPM, tiempoAnteriorLeds;
 
 // Variables para lectura de comandos
 String comando;
 
 // Variables PID
 double Setpoint, Input, Output;
-double Kp = 30.0, Ki = 1.0, Kd = 0.0;
+double Kp = 80.0, Ki = 1.0, Kd = 0.0;
 PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 
 // Variables para control automático
@@ -53,18 +56,21 @@ void medirVelocidad() {
 void setup() {
   Serial.begin(115200);
 
-
   // Inicialización de tiempos
   tiempoAnteriorTemp = millis();
   tiempoAnteriorVel = millis();
   tiempoImprimir = millis();
   ultimoTiempoRPM = millis();
+  tiempoAnteriorLeds = millis();
 
   // Configuración de pines
   pinMode(NTC_PIN, INPUT);
   pinMode(LUZ_PIN, OUTPUT);
   pinMode(VENT_PIN, OUTPUT);
   pinMode(VEL_PIN, INPUT);
+  pinMode(LED_VERDE_PIN, OUTPUT);
+  pinMode(LED_AMARILLO_PIN, OUTPUT);
+  pinMode(LED_ROJO_PIN, OUTPUT);
 
   // Configuración de interrupción para medir velocidad del ventilador
   attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, FALLING);
@@ -107,10 +113,7 @@ void loop() {
       velocidadRPM = (pulsos /2.0 ) * (60000.0 / tiempoTranscurrido);
     }
 
-    //ultimasRPM[indiceRPM] = velocidadRPM;
-    //indiceRPM = (indiceRPM + 1) % 1;
     ultimasRPM = velocidadRPM;
-
     ultimoTiempoRPM = tiempoActual;
     tiempoAnteriorVel = tiempoActual;
   }
@@ -125,6 +128,34 @@ void loop() {
 
     tiempoImprimir = millis();
   }
+
+  if (millis() - tiempoAnteriorLeds >= 100) {
+    tiempoAnteriorLeds = millis();
+
+    // Control de LEDs y buzzer basado en temperatura promedio
+    float tempPromedio = calcularPromedio(ultimasTemp, 5);
+
+        // Operación normal (verde)
+    if (tempPromedio >= Setpoint - 1 && tempPromedio <= Setpoint + 1) {
+      digitalWrite(LED_VERDE_PIN, HIGH);
+      digitalWrite(LED_AMARILLO_PIN, LOW);
+      digitalWrite(LED_ROJO_PIN, LOW);
+
+        // Alerta moderada (amarillo)
+    } else if (tempPromedio > Setpoint + 1 && tempPromedio <= Setpoint + 3 ||
+              tempPromedio < Setpoint - 1 && tempPromedio >= Setpoint - 3) {
+        digitalWrite(LED_VERDE_PIN, LOW);
+        digitalWrite(LED_AMARILLO_PIN, HIGH);
+        digitalWrite(LED_ROJO_PIN, LOW);
+
+        // Alerta crítica (rojo y buzzer)
+    } else if (tempPromedio > Setpoint + 3 || tempPromedio < Setpoint - 3) {
+        digitalWrite(LED_VERDE_PIN, LOW);
+        digitalWrite(LED_AMARILLO_PIN, LOW);
+        digitalWrite(LED_ROJO_PIN, HIGH);
+     }
+  }
+
 
   // Lectura de comandos desde Serial
   if (Serial.available() > 0) {
@@ -144,4 +175,5 @@ void loop() {
       analogWrite(VENT_PIN, potenciaVentilador);
     }
   }
-}
+} 
+
