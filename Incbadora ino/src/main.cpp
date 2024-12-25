@@ -2,6 +2,7 @@
 #include <PID_v1.h>
 
 // Definición de pines
+<<<<<<< HEAD
 #define NTC_PIN A0  // Pin NTC
 #define LUZ_PIN 11  // Pin Luz
 #define VENT_PIN 9  // Pin Ventilador
@@ -9,6 +10,12 @@
 #define LED_VERDE_PIN 7  // Pin LED verde
 #define LED_AMARILLO_PIN 6 // Pin LED amarillo
 #define LED_ROJO_PIN 4    // Pin LED rojo
+=======
+#define NTC_PIN A0 // Pin NTC
+#define LUZ_PIN 11 // Pin Luz
+#define VENT_PIN 9 // Pin Ventilador
+#define VEL_PIN 3 // Pin Velocidad Tacómetro
+>>>>>>> parent of b5ed9c8 (g)
 
 // Constantes para el cálculo de la temperatura
 #define A_COEFF 0.5458630405e-3
@@ -20,7 +27,7 @@ float resistenciaNTC, logResistencia, tempKelvin, tempCelsius;
 int lecturaNTC, potenciaVentilador, potenciaLuz;
 volatile int contadorImpulsos = 0;
 volatile float velocidadRPM = 0;
-unsigned long tiempoAnteriorTemp, tiempoAnteriorVel, tiempoImprimir, ultimoTiempoRPM, tiempoAnteriorLeds;
+unsigned long tiempoAnteriorTemp, tiempoAnteriorVel, tiempoImprimir, ultimoTiempoRPM;
 
 // Variables para lectura de comandos
 String comando;
@@ -56,21 +63,24 @@ void medirVelocidad() {
 void setup() {
   Serial.begin(115200);
 
+
   // Inicialización de tiempos
   tiempoAnteriorTemp = millis();
   tiempoAnteriorVel = millis();
   tiempoImprimir = millis();
   ultimoTiempoRPM = millis();
-  tiempoAnteriorLeds = millis();
 
   // Configuración de pines
   pinMode(NTC_PIN, INPUT);
   pinMode(LUZ_PIN, OUTPUT);
   pinMode(VENT_PIN, OUTPUT);
   pinMode(VEL_PIN, INPUT);
+<<<<<<< HEAD
   pinMode(LED_VERDE_PIN, OUTPUT);
   pinMode(LED_AMARILLO_PIN, OUTPUT);
   pinMode(LED_ROJO_PIN, OUTPUT);
+=======
+>>>>>>> parent of b5ed9c8 (g)
 
   // Configuración de interrupción para medir velocidad del ventilador
   attachInterrupt(digitalPinToInterrupt(VEL_PIN), medirVelocidad, FALLING);
@@ -79,7 +89,7 @@ void setup() {
 }
 
 void loop() {
-  // Medición de temperatura cada 250 ms
+  // Medición de temperatura cada 250 ms 
   if (millis() - tiempoAnteriorTemp >= 250) {
     lecturaNTC = analogRead(NTC_PIN);
     resistenciaNTC = 100000.0 * ((1023.0 / lecturaNTC) - 1.0);
@@ -92,7 +102,11 @@ void loop() {
 
     if (control_automatico) {
       Input = calcularPromedio(ultimasTemp, 5);
+<<<<<<< HEAD
       myPID.Compute();
+=======
+      myPID.Compute(); // Cálculo de la salida del PI control
+>>>>>>> parent of b5ed9c8 (g)
       analogWrite(LUZ_PIN, map(Output, 0, 100, 0, 255));
     }
 
@@ -114,12 +128,17 @@ void loop() {
     }
 
     ultimasRPM = velocidadRPM;
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of b5ed9c8 (g)
     ultimoTiempoRPM = tiempoActual;
     tiempoAnteriorVel = tiempoActual;
   }
 
   // Impresión de datos cada 300 ms
   if (millis() - tiempoImprimir >= 300) {
+    
     Serial.print(calcularPromedio(ultimasTemp, 5));
     Serial.print(";");
     Serial.print(ultimasRPM);
@@ -129,6 +148,7 @@ void loop() {
     tiempoImprimir = millis();
   }
 
+<<<<<<< HEAD
   if (millis() - tiempoAnteriorLeds >= 100) {
     tiempoAnteriorLeds = millis();
 
@@ -157,6 +177,8 @@ void loop() {
   }
 
 
+=======
+>>>>>>> parent of b5ed9c8 (g)
   // Lectura de comandos desde Serial
   if (Serial.available() > 0) {
     comando = Serial.readStringUntil('\n');
@@ -175,5 +197,9 @@ void loop() {
       analogWrite(VENT_PIN, potenciaVentilador);
     }
   }
+<<<<<<< HEAD
 } 
 
+=======
+}
+>>>>>>> parent of b5ed9c8 (g)
