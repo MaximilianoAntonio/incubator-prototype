@@ -87,3 +87,11 @@ The system incorporates transistors and optocouplers for safe and efficient cont
 3. **Arduino Control**:
    - Switch between automatic and manual modes using the interface.
    - Monitor serial output for debugging.
+
+## Documentation
+
+For a detailed explanation of the system design, implementation, and experimental results, refer to the **[Reporte Final Incubadora.pdf](./Reporte%20Final%20Incubadora.pdf)** included in this repository. This document covers:
+- Hardware design and circuit schematics.
+- Code functionality for Arduino and Python.
+- Performance tests and results.
+- Mathematical modeling and system analysis.
